@@ -16,10 +16,18 @@
 
 package com.gjkf.calc;
 
+import org.eclipse.swt.widgets.Display;
+
+import com.gjkf.calc.gui.MainView;
+
 public class Main{
 
 	public static void main(String[] args){
 
+		Display d = new Display();
+		MainView view = new MainView();
+		view.init(d);
+		
 	}
 
 }
