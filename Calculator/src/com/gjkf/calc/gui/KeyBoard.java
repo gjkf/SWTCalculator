@@ -28,10 +28,10 @@ public class KeyBoard{
 
 	private Shell shell;
 
-	private Button[] firstRowNumberButtons = new Button[3];
-	private Button[] secondRowNumberButtons = new Button[3];
-	private Button[] thirdRowNumberButtons = new Button[3];
-	private Button[] fourthRowButtons = new Button[3];
+	private Button[] firstRowNumberButtons = new Button[4];
+	private Button[] secondRowNumberButtons = new Button[4];
+	private Button[] thirdRowNumberButtons = new Button[4];
+	private Button[] fourthRowButtons = new Button[4];
 
 	public KeyBoard(int x, int y, Shell shell){
 
@@ -46,49 +46,57 @@ public class KeyBoard{
 		for(int i = 0; i < firstRowNumberButtons.length; i++){
 			firstRowNumberButtons[i] = new Button(shell, SWT.PUSH);
 			firstRowNumberButtons[i].setBounds(x + 55*i, y, 50, 50);
-			
+
 			if(i == 0)
 				firstRowNumberButtons[i].setText("7");
 			else if(i == 1)
 				firstRowNumberButtons[i].setText("8");
 			else if(i == 2)
 				firstRowNumberButtons[i].setText("9");
+			else if(i == 3)
+				firstRowNumberButtons[i].setText("x");
 		}
 
 		for(int i = 0; i < secondRowNumberButtons.length; i++){
 			secondRowNumberButtons[i] = new Button(shell, SWT.PUSH);
 			secondRowNumberButtons[i].setBounds(x + 55*i, y + 60, 50, 50);
-			
+
 			if(i == 0)
 				secondRowNumberButtons[i].setText("4");
 			else if(i == 1)
 				secondRowNumberButtons[i].setText("5");
 			else if(i == 2)
 				secondRowNumberButtons[i].setText("6");
+			else if(i == 3)
+				secondRowNumberButtons[i].setText(":");
 		}
 
 		for(int i = 0; i < thirdRowNumberButtons.length; i++){
 			thirdRowNumberButtons[i] = new Button(shell, SWT.PUSH);
 			thirdRowNumberButtons[i].setBounds(x +55*i, y + 120, 50, 50);
-			
+
 			if(i == 0)
 				thirdRowNumberButtons[i].setText("1");
 			else if(i == 1)
 				thirdRowNumberButtons[i].setText("2");
 			else if(i == 2)
 				thirdRowNumberButtons[i].setText("3");
+			else if(i == 3)
+				thirdRowNumberButtons[i].setText("+");
 		}
-		
+
 		for(int i = 0; i < fourthRowButtons.length; i++){
 			fourthRowButtons[i] = new Button(shell, SWT.PUSH);
 			fourthRowButtons[i].setBounds(x + 55*i, y + 180, 50, 50);
-			
+
 			if(i == 0)
 				fourthRowButtons[i].setText("0");
 			else if(i == 1)
 				fourthRowButtons[i].setText(".");
 			else if(i == 2)
 				fourthRowButtons[i].setText("=");
+			else if(i == 3)
+				fourthRowButtons[i].setText("-");
 		}
 
 		setListeners("1");
@@ -103,27 +111,31 @@ public class KeyBoard{
 		setListeners("0");
 		setListeners(".");
 		setListeners("=");
-		
+		setListeners("X");
+		setListeners(":");
+		setListeners("+");
+		setListeners("-");
+
 	}
-	
+
 	public void dispose(){
-		
+
 		for(int i = 0; i < firstRowNumberButtons.length; i++){
 			firstRowNumberButtons[i].dispose();
 		}
-		
+
 		for(int i = 0; i < secondRowNumberButtons.length; i++){
 			secondRowNumberButtons[i].dispose();
 		}
-		
+
 		for(int i = 0; i < thirdRowNumberButtons.length; i++){
 			thirdRowNumberButtons[i].dispose();
 		}
-		
+
 		for(int i = 0; i < fourthRowButtons.length; i++){
 			fourthRowButtons[i].dispose();
 		}
-		
+
 	}
 
 	private void setListeners(String ident){
@@ -233,6 +245,42 @@ public class KeyBoard{
 				@Override
 				public void mouseDown(MouseEvent e){
 					System.out.println("=");
+				}
+
+			});
+		}else if(ident.equals("X")){
+			firstRowNumberButtons[3].addMouseListener(new MouseAdapter(){
+
+				@Override
+				public void mouseDown(MouseEvent e){
+					System.out.println("x");
+				}
+
+			});
+		}else if(ident.equals(":")){
+			secondRowNumberButtons[3].addMouseListener(new MouseAdapter(){
+
+				@Override
+				public void mouseDown(MouseEvent e){
+					System.out.println(":");
+				}
+
+			});
+		}else if(ident.equals("+")){
+			thirdRowNumberButtons[3].addMouseListener(new MouseAdapter(){
+
+				@Override
+				public void mouseDown(MouseEvent e){
+					System.out.println("+");
+				}
+
+			});
+		}else if(ident.equals("-")){
+			fourthRowButtons[3].addMouseListener(new MouseAdapter(){
+
+				@Override
+				public void mouseDown(MouseEvent e){
+					System.out.println("-");
 				}
 
 			});
