@@ -28,12 +28,12 @@ public class MainView{
 	private Display display;
 	private static Shell shell;
 
-	private Button[] numberButtons = new Button[10];
-	private Button plusButton, minusButton, timesButton, divideButton;
+	private Button extendButton;
 
-	/**
-	 * @wbp.parser.entryPoint
-	 */
+	private KeyBoard keyBoard;
+
+	private boolean extended = false;
+
 	public void init(Display d){
 
 		this.display = d;
@@ -44,33 +44,28 @@ public class MainView{
 		shell.setLayout(null);
 		shell.setText("Scientific Calculator");
 
-		initButtons();
+		extendButton = new Button(shell, SWT.PUSH);
+		extendButton.setBounds(0, 10, 40, 25);
+		extendButton.setText("...");
+		extendButton.addMouseListener(new MouseAdapter(){
+
+			@Override
+			public void mouseDown(MouseEvent e){
+				System.out.println("...");
+				extended = !extended;
+				if(extended){
+					keyBoard = new KeyBoard(25, 300, shell);
+					keyBoard.initKeyBoard();
+					shell.layout();
+				}else{
+					keyBoard.dispose();
+				}
+			}
+
+		});
+
 		center();
 		open();
-	}
-
-	public void initButtons(){
-
-		/*
-		 * Better way of handling 10 different digits
-		 */
-
-		for(int i = 0; i < numberButtons.length; i++){
-			numberButtons[i] = new Button(shell, SWT.PUSH);
-			numberButtons[i].setBounds(25 + 55*i, 250, 50, 50);
-			numberButtons[i].setText(Integer.toString(i));
-		}
-
-		plusButton = new Button(shell, SWT.PUSH);
-		minusButton = new Button(shell, SWT.PUSH);
-		timesButton = new Button(shell, SWT.PUSH);
-		divideButton = new Button(shell, SWT.PUSH);
-
-		setOperationButtons(plusButton, "+", 25, 320, 45, 45);
-		setOperationButtons(minusButton, "-", 80, 320, 45, 45);
-		setOperationButtons(timesButton, "x", 135, 320, 45, 45);
-		setOperationButtons(divideButton, "/", 190, 320, 45, 45);
-
 	}
 
 	/*
@@ -84,37 +79,6 @@ public class MainView{
 				display.sleep();
 			}
 		}
-	}
-
-	public void setOperationButtons(Button btn, String text, int x, int y, int width, int height){
-		if(btn != null){
-			btn.setBounds(x, y, width, height);
-			btn.setText(text);
-		}
-	}
-
-	public void setListeners(Button btn, String ident){
-
-		if(ident.equals("+")){
-			plusButton.addMouseListener(new MouseAdapter(){
-
-				@Override
-				public void mouseDown(MouseEvent e){
-					System.out.println("+");
-				}
-
-			});
-		}else if(ident.equals("-")){
-			minusButton.addMouseListener(new MouseAdapter(){
-				
-				@Override
-				public void mouseDown(MouseEvent e){
-					System.out.println("-");
-				}
-				
-			});
-		}
-
 	}
 
 	/*
