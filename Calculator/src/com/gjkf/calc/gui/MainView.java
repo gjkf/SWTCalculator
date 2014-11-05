@@ -18,12 +18,16 @@ package com.gjkf.calc.gui;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CLabel;
+import org.eclipse.swt.events.KeyEvent;
+import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
+
+import com.gjkf.calc.core.Core;
 
 public class MainView{
 
@@ -78,6 +82,32 @@ public class MainView{
 		formulaField.setBounds(300, 500, 650, 30);
 		formulaField.setMessage("Insert Here the Formula");
 
+		formulaField.addKeyListener(new KeyListener() {
+
+			@Override
+			public void keyReleased(KeyEvent e){}
+
+			@Override
+			public void keyPressed(KeyEvent e){
+
+				if(e.keyCode == 13){
+
+					if(formula.contains("x")){
+						expressionLabel.setText((Double.toString(Core.getMoltiplication(formula))));
+					}else if(formula.contains(":")){
+						expressionLabel.setText((Double.toString(Core.getDivision(formula))));
+					}else if(formula.contains("+")){
+						expressionLabel.setText((Double.toString(Core.getAddition(formula))));
+					}else if(formula.contains("-")){
+						expressionLabel.setText((Double.toString(Core.getSubtraction(formula))));
+					}
+
+				}
+
+			}
+
+		});
+
 	}
 
 	private void initButtons(){
@@ -99,9 +129,16 @@ public class MainView{
 				if(extended){
 					keyBoard = new KeyBoard(25, 300, shell);
 					keyBoard.initKeyBoard();
+
+					formulaField.dispose();
+
 					shell.layout();
 				}else{
 					keyBoard.dispose();
+
+					formulaField = new Text(shell, SWT.CENTER);
+					formulaField.setBounds(300, 500, 650, 30);
+					formulaField.setMessage("Insert Here the Formula");
 				}
 			}
 
@@ -118,9 +155,13 @@ public class MainView{
 		Runnable timer = new Runnable() {
 			public void run() {
 				display.timerExec(time, this);
-				formula = formulaField.getText();
+
+				if(!formulaField.isDisposed())
+					formula = formulaField.getText();
+
 				if(!extended)
 					expressionLabel.setText(formula);
+
 				shell.redraw();
 			}
 		};

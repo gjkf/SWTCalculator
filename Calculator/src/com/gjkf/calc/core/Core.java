@@ -24,8 +24,8 @@ public class Core{
 
 			if(expression.contains("x")){
 
-				double xValue = Double.parseDouble(expression.split("+")[0]);
-				double yValue = Double.parseDouble(expression.split("+")[1]);
+				double xValue = Double.parseDouble(expression.split("x")[0].substring(0, expression.split("x")[0].length()));
+				double yValue = Double.parseDouble(expression.split("x")[1].substring(0, expression.split("x")[1].length()));
 
 				System.err.println(xValue * yValue);
 
@@ -47,8 +47,8 @@ public class Core{
 
 			if(expression.contains(":")){
 
-				double xValue = Double.parseDouble(expression.split("+")[0]);
-				double yValue = Double.parseDouble(expression.split("+")[1]);
+				double xValue = Double.parseDouble(expression.split(":")[0].substring(0, expression.split(":")[0].length()));
+				double yValue = Double.parseDouble(expression.split(":")[1].substring(0, expression.split(":")[1].length()));
 
 				System.err.println(xValue / yValue);
 
@@ -63,6 +63,10 @@ public class Core{
 		return Integer.MAX_VALUE;
 
 	}
+	
+	/*
+	 * This does not work, regex doesn't accept '+'...
+	 */
 
 	public static double getAddition(String expression){
 
@@ -70,8 +74,8 @@ public class Core{
 
 			if(expression.contains("+")){
 				
-				double xValue = Double.parseDouble(expression.split("+")[0]);
-				double yValue = Double.parseDouble(expression.split("+")[1]);
+				double xValue = Double.parseDouble(expression.split("+")[0].substring(0, expression.split("+")[0].length()));
+				double yValue = Double.parseDouble(expression.split("+")[1].substring(0, expression.split("+")[1].length()));
 
 				System.err.println(xValue + yValue);
 
@@ -93,8 +97,8 @@ public class Core{
 
 			if(expression.contains("-")){
 
-				double xValue = Double.parseDouble(expression.split("+")[0]);
-				double yValue = Double.parseDouble(expression.split("+")[1]);
+				double xValue = Double.parseDouble(expression.split("-")[0].substring(0, expression.split("-")[0].length()));
+				double yValue = Double.parseDouble(expression.split("-")[1].substring(0, expression.split("-")[1].length()));
 
 				System.err.println(xValue - yValue);
 

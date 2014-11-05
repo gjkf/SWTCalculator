@@ -118,7 +118,7 @@ public class KeyBoard{
 		setListeners("0");
 		setListeners(".");
 		setListeners("=");
-		setListeners("X");
+		setListeners("x");
 		setListeners(":");
 		setListeners("+");
 		setListeners("-");
@@ -278,13 +278,13 @@ public class KeyBoard{
 				}
 				
 			});
-		}else if(ident.equals("X")){
+		}else if(ident.equals("x")){
 			firstRowNumberButtons[3].addMouseListener(new MouseAdapter(){
 
 				@Override
 				public void mouseDown(MouseEvent e){
 					System.out.println("x");
-					label.setText(label.getText() + "x");
+					label.setText(label.getText() + " x ");
 				}
 
 			});
@@ -294,7 +294,7 @@ public class KeyBoard{
 				@Override
 				public void mouseDown(MouseEvent e){
 					System.out.println(":");
-					label.setText(label.getText() + ":");
+					label.setText(label.getText() + " : ");
 				}
 
 			});
@@ -304,7 +304,7 @@ public class KeyBoard{
 				@Override
 				public void mouseDown(MouseEvent e){
 					System.out.println("+");
-					label.setText(label.getText() + "+");
+					label.setText(label.getText() + " + ");
 				}
 
 			});
@@ -314,7 +314,7 @@ public class KeyBoard{
 				@Override
 				public void mouseDown(MouseEvent e){
 					System.out.println("-");
-					label.setText(label.getText() + "-");
+					label.setText(label.getText() + " - ");
 				}
 
 			});
