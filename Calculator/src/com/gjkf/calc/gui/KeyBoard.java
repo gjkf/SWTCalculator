@@ -17,16 +17,22 @@
 package com.gjkf.calc.gui;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Shell;
 
+import com.gjkf.calc.core.Core;
+
 public class KeyBoard{
 
 	private int x, y;
+	private String expression;
 
 	private Shell shell;
+
+	private CLabel label;
 
 	private Button[] firstRowNumberButtons = new Button[4];
 	private Button[] secondRowNumberButtons = new Button[4];
@@ -38,6 +44,7 @@ public class KeyBoard{
 		this.x = x;
 		this.y = y;
 		this.shell = shell;
+		this.label = MainView.getLabel();
 
 	}
 
@@ -146,6 +153,7 @@ public class KeyBoard{
 				@Override
 				public void mouseDown(MouseEvent e){
 					System.out.println("1");
+					label.setText(label.getText() + "1");
 				}
 
 			});
@@ -155,6 +163,7 @@ public class KeyBoard{
 				@Override
 				public void mouseDown(MouseEvent e){
 					System.out.println("2");
+					label.setText(label.getText() + "2");
 				}
 
 			});
@@ -164,6 +173,7 @@ public class KeyBoard{
 				@Override
 				public void mouseDown(MouseEvent e){
 					System.out.println("3");
+					label.setText(label.getText() + "3");
 				}
 
 			});
@@ -173,6 +183,7 @@ public class KeyBoard{
 				@Override
 				public void mouseDown(MouseEvent e){
 					System.out.println("4");
+					label.setText(label.getText() + "4");
 				}
 
 			});
@@ -182,6 +193,7 @@ public class KeyBoard{
 				@Override
 				public void mouseDown(MouseEvent e){
 					System.out.println("5");
+					label.setText(label.getText() + "5");
 				}
 
 			});
@@ -191,6 +203,7 @@ public class KeyBoard{
 				@Override
 				public void mouseDown(MouseEvent e){
 					System.out.println("6");
+					label.setText(label.getText() + "6");
 				}
 
 			});
@@ -200,6 +213,7 @@ public class KeyBoard{
 				@Override
 				public void mouseDown(MouseEvent e){
 					System.out.println("7");
+					label.setText(label.getText() + "7");
 				}
 
 			});
@@ -209,6 +223,7 @@ public class KeyBoard{
 				@Override
 				public void mouseDown(MouseEvent e){
 					System.out.println("8");
+					label.setText(label.getText() + "8");
 				}
 
 			});
@@ -218,6 +233,7 @@ public class KeyBoard{
 				@Override
 				public void mouseDown(MouseEvent e){
 					System.out.println("9");
+					label.setText(label.getText() + "9");
 				}
 
 			});
@@ -227,6 +243,7 @@ public class KeyBoard{
 				@Override
 				public void mouseDown(MouseEvent e){
 					System.out.println("0");
+					label.setText(label.getText() + "0");
 				}
 
 			});
@@ -236,6 +253,7 @@ public class KeyBoard{
 				@Override
 				public void mouseDown(MouseEvent e){
 					System.out.println(".");
+					label.setText(label.getText() + ".");
 				}
 
 			});
@@ -245,8 +263,20 @@ public class KeyBoard{
 				@Override
 				public void mouseDown(MouseEvent e){
 					System.out.println("=");
+					expression = label.getText();
+					
+					System.out.println("Text: " + label.getText());
+					
+					if(expression.contains("x"))
+						label.setText((Double.toString(Core.getMoltiplication(expression))));
+					else if(expression.contains(":"))
+						label.setText((Double.toString(Core.getDivision(expression))));
+					else if(expression.contains("+"))
+						label.setText((Double.toString(Core.getAddition(expression))));
+					else if(expression.contains("-"))
+						label.setText((Double.toString(Core.getSubtraction(expression))));
 				}
-
+				
 			});
 		}else if(ident.equals("X")){
 			firstRowNumberButtons[3].addMouseListener(new MouseAdapter(){
@@ -254,6 +284,7 @@ public class KeyBoard{
 				@Override
 				public void mouseDown(MouseEvent e){
 					System.out.println("x");
+					label.setText(label.getText() + "x");
 				}
 
 			});
@@ -263,6 +294,7 @@ public class KeyBoard{
 				@Override
 				public void mouseDown(MouseEvent e){
 					System.out.println(":");
+					label.setText(label.getText() + ":");
 				}
 
 			});
@@ -272,6 +304,7 @@ public class KeyBoard{
 				@Override
 				public void mouseDown(MouseEvent e){
 					System.out.println("+");
+					label.setText(label.getText() + "+");
 				}
 
 			});
@@ -281,6 +314,7 @@ public class KeyBoard{
 				@Override
 				public void mouseDown(MouseEvent e){
 					System.out.println("-");
+					label.setText(label.getText() + "-");
 				}
 
 			});

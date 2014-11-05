@@ -17,11 +17,13 @@
 package com.gjkf.calc.gui;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Text;
 
 public class MainView{
 
@@ -32,17 +34,53 @@ public class MainView{
 
 	private KeyBoard keyBoard;
 
+	private static CLabel expressionLabel;
+
+	private Text formulaField;
+
 	private boolean extended = false;
+
+	// Time in ms
+	private int time = 1000;
+
+	private String formula; 
 
 	public void init(Display d){
 
 		this.display = d;
 
 		shell = new Shell(display, SWT.SHELL_TRIM);
-		shell.setMinimumSize(600, 200);
+		shell.setMinimumSize(1000, 600);
 		shell.setSize(1000, 600);
 		shell.setLayout(null);
 		shell.setText("Scientific Calculator");
+
+		initButtons();
+		initLabels();
+		initTextField();
+
+		initTimer();
+
+		center();
+		open();
+	}
+
+	private void initLabels(){
+
+		expressionLabel = new CLabel(shell, SWT.SHADOW_IN);
+		expressionLabel.setBounds(300, 300, 650, 100);
+
+	}
+
+	private void initTextField(){
+
+		formulaField = new Text(shell, SWT.CENTER);
+		formulaField.setBounds(300, 500, 650, 30);
+		formulaField.setMessage("Insert Here the Formula");
+
+	}
+
+	private void initButtons(){
 
 		extendButton = new Button(shell, SWT.PUSH);
 		extendButton.setBounds(0, 10, 40, 25);
@@ -53,6 +91,11 @@ public class MainView{
 			public void mouseDown(MouseEvent e){
 				System.out.println("...");
 				extended = !extended;
+
+				/*
+				 * Open the KeyBoard in case it's closed and vice-versa 
+				 */
+
 				if(extended){
 					keyBoard = new KeyBoard(25, 300, shell);
 					keyBoard.initKeyBoard();
@@ -64,8 +107,30 @@ public class MainView{
 
 		});
 
-		center();
-		open();
+	}
+
+	/*
+	 * Timer to update the Label
+	 */
+
+	private void initTimer(){
+
+		Runnable timer = new Runnable() {
+			public void run() {
+				display.timerExec(time, this);
+				formula = formulaField.getText();
+				if(!extended)
+					expressionLabel.setText(formula);
+				shell.redraw();
+			}
+		};
+
+		display.timerExec(time, timer);
+
+	}
+
+	public static CLabel getLabel(){
+		return expressionLabel;
 	}
 
 	/*
