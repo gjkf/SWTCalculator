@@ -38,14 +38,15 @@ public class MainView{
 
 	private KeyBoard keyBoard;
 
-	private static CLabel expressionLabel;
+	private static CLabel expressionLabel, xStackLabel, yStackLabel, zStackLabel, tStackLabel;
 
 	private Text formulaField;
 
 	private boolean extended = false;
+	private static boolean calculated = false;
 
 	// Time in ms
-	private int time = 1000;
+	private int time = 10;
 
 	private String formula; 
 
@@ -73,7 +74,24 @@ public class MainView{
 
 		expressionLabel = new CLabel(shell, SWT.SHADOW_IN);
 		expressionLabel.setBounds(300, 300, 650, 100);
+		
+		initStackLabels();
 
+	}
+	
+	private void initStackLabels(){
+		
+		if(extended){
+			xStackLabel = new CLabel(shell, SWT.SHADOW_NONE);
+			xStackLabel.setBounds(25, 170, 250, 30);
+			yStackLabel = new CLabel(shell, SWT.SHADOW_NONE);
+			yStackLabel.setBounds(25, 200, 250, 30);
+			zStackLabel = new CLabel(shell, SWT.SHADOW_NONE);
+			zStackLabel.setBounds(25, 230, 250, 30);
+			tStackLabel = new CLabel(shell, SWT.SHADOW_NONE);
+			tStackLabel.setBounds(25, 260, 250, 30);
+		}
+		
 	}
 
 	private void initTextField(){
@@ -92,15 +110,8 @@ public class MainView{
 
 				if(e.keyCode == 13){
 
-					if(formula.contains("x")){
-						expressionLabel.setText((Double.toString(Core.getMoltiplication(formula))));
-					}else if(formula.contains(":")){
-						expressionLabel.setText((Double.toString(Core.getDivision(formula))));
-					}else if(formula.contains("+")){
-						expressionLabel.setText((Double.toString(Core.getAddition(formula))));
-					}else if(formula.contains("-")){
-						expressionLabel.setText((Double.toString(Core.getSubtraction(formula))));
-					}
+					//TODO: calculate
+					setCalculated(true);
 
 				}
 
@@ -122,19 +133,22 @@ public class MainView{
 				System.out.println("...");
 				extended = !extended;
 
-				/*
-				 * Open the KeyBoard in case it's closed and vice-versa 
-				 */
-
 				if(extended){
 					keyBoard = new KeyBoard(25, 300, shell);
 					keyBoard.initKeyBoard();
 
 					formulaField.dispose();
+					
+					initStackLabels();
 
 					shell.layout();
 				}else{
 					keyBoard.dispose();
+					
+					xStackLabel.dispose();
+					yStackLabel.dispose();
+					zStackLabel.dispose();
+					tStackLabel.dispose();
 
 					formulaField = new Text(shell, SWT.CENTER);
 					formulaField.setBounds(300, 500, 650, 30);
@@ -156,13 +170,28 @@ public class MainView{
 			public void run() {
 				display.timerExec(time, this);
 
-				if(!formulaField.isDisposed())
-					formula = formulaField.getText();
+				if(!formulaField.isDisposed()){
 
-				if(!extended)
-					expressionLabel.setText(formula);
+					if(!isCalculated()){
+						formula = formulaField.getText();
+					}
+
+					if(!extended && !isCalculated())
+						expressionLabel.setText(formula);
+
+					if(!formulaField.getText().equals(formula))
+						setCalculated(false);
+				}
+
+				if(extended && xStackLabel != null && yStackLabel != null && zStackLabel != null && tStackLabel != null){
+					xStackLabel.setText("X: " + Core.x);
+					yStackLabel.setText("Y: " + Core.y);
+					zStackLabel.setText("Z: " + Core.z);
+					tStackLabel.setText("T: " + Core.t);
+				}
 
 				shell.redraw();
+
 			}
 		};
 
@@ -173,6 +202,31 @@ public class MainView{
 	public static CLabel getLabel(){
 		return expressionLabel;
 	}
+
+	public static CLabel getXStackLabel(){
+		return xStackLabel;
+	}
+	
+	public static CLabel getYStackLabel(){
+		return yStackLabel;
+	}
+	
+	public static CLabel getZStackLabel(){
+		return zStackLabel;
+	}
+	
+	public static CLabel getTStackLabel(){
+		return tStackLabel;
+	}
+
+	public static boolean isCalculated(){
+		return calculated;
+	}
+
+	public static void setCalculated(boolean calc){
+		calculated = calc;
+	}
+
 
 	/*
 	 * This ensures that the shell stays open until it's closed

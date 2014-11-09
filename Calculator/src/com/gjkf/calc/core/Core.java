@@ -18,100 +18,12 @@ package com.gjkf.calc.core;
 
 public class Core{
 
-	public static double getMoltiplication(String expression){
+	public static double x = 0, y = 0, z = 0, t = 0;
 
-		if(expression != null){
-
-			if(expression.contains("x")){
-
-				double xValue = Double.parseDouble(expression.split("x")[0].substring(0, expression.split("x")[0].length()));
-				double yValue = Double.parseDouble(expression.split("x")[1].substring(0, expression.split("x")[1].length()));
-
-				System.err.println(xValue * yValue);
-
-				return xValue * yValue;
-
-			}
-
-			return Integer.MIN_VALUE;
-
-		}
-
-		return Integer.MAX_VALUE;
-
-	}
-
-	public static double getDivision(String expression){
-
-		if(expression != null){
-
-			if(expression.contains(":")){
-
-				double xValue = Double.parseDouble(expression.split(":")[0].substring(0, expression.split(":")[0].length()));
-				double yValue = Double.parseDouble(expression.split(":")[1].substring(0, expression.split(":")[1].length()));
-
-				System.err.println(xValue / yValue);
-
-				return xValue / yValue;
-
-			}
-
-			return Integer.MIN_VALUE;
-
-		}
-
-		return Integer.MAX_VALUE;
-
+	public static void clearStack(){
+		
+		x = 0; y = 0; z = 0; t = 0;
+		
 	}
 	
-	/*
-	 * This does not work, regex doesn't accept '+'...
-	 */
-
-	public static double getAddition(String expression){
-
-		if(expression != null){
-
-			if(expression.contains("+")){
-				
-				double xValue = Double.parseDouble(expression.split("+")[0].substring(0, expression.split("+")[0].length()));
-				double yValue = Double.parseDouble(expression.split("+")[1].substring(0, expression.split("+")[1].length()));
-
-				System.err.println(xValue + yValue);
-
-				return xValue + yValue;
-
-			}
-
-			return Double.MIN_VALUE;
-
-		}
-
-		return Double.MAX_VALUE;
-
-	}
-
-	public static double getSubtraction(String expression){
-
-		if(expression != null){
-
-			if(expression.contains("-")){
-
-				double xValue = Double.parseDouble(expression.split("-")[0].substring(0, expression.split("-")[0].length()));
-				double yValue = Double.parseDouble(expression.split("-")[1].substring(0, expression.split("-")[1].length()));
-
-				System.err.println(xValue - yValue);
-
-				return xValue - yValue;
-
-			}
-
-			return Integer.MIN_VALUE;
-
-		}
-
-		return Integer.MAX_VALUE;
-
-	}
-
 }

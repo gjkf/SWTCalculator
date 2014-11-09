@@ -28,16 +28,17 @@ import com.gjkf.calc.core.Core;
 public class KeyBoard{
 
 	private int x, y;
-	private String expression;
 
 	private Shell shell;
 
 	private CLabel label;
 
-	private Button[] firstRowNumberButtons = new Button[4];
+	public static boolean calculated = false;
+
+	private Button[] firstRowNumberButtons = new Button[5];
 	private Button[] secondRowNumberButtons = new Button[4];
-	private Button[] thirdRowNumberButtons = new Button[4];
-	private Button[] fourthRowButtons = new Button[4];
+	private Button[] thirdRowNumberButtons = new Button[5];
+	private Button[] fourthRowButtons = new Button[5];
 
 	public KeyBoard(int x, int y, Shell shell){
 
@@ -62,6 +63,10 @@ public class KeyBoard{
 				firstRowNumberButtons[i].setText("9");
 			else if(i == 3)
 				firstRowNumberButtons[i].setText("x");
+			else if(i == 4){
+				firstRowNumberButtons[i].setText("ENT");
+				firstRowNumberButtons[i].setBounds(x + 55*i, y, 50, 110);
+			}
 		}
 
 		for(int i = 0; i < secondRowNumberButtons.length; i++){
@@ -90,6 +95,8 @@ public class KeyBoard{
 				thirdRowNumberButtons[i].setText("3");
 			else if(i == 3)
 				thirdRowNumberButtons[i].setText("+");
+			else if(i == 4)
+				thirdRowNumberButtons[i].setText("Del");
 		}
 
 		for(int i = 0; i < fourthRowButtons.length; i++){
@@ -100,10 +107,12 @@ public class KeyBoard{
 				fourthRowButtons[i].setText("0");
 			else if(i == 1)
 				fourthRowButtons[i].setText(".");
-			else if(i == 2)
-				fourthRowButtons[i].setText("=");
+			//else if(i == 2)
+			//fourthRowButtons[i].setText("=");
 			else if(i == 3)
 				fourthRowButtons[i].setText("-");
+			else if(i == 4)
+				fourthRowButtons[i].setText("AC");
 		}
 
 		setListeners("1");
@@ -122,6 +131,9 @@ public class KeyBoard{
 		setListeners(":");
 		setListeners("+");
 		setListeners("-");
+		setListeners("del");
+		setListeners("ac");
+		setListeners("ent");
 
 	}
 
@@ -145,7 +157,7 @@ public class KeyBoard{
 
 	}
 
-	private void setListeners(String ident){
+	private void setListeners(final String ident){
 
 		if(ident.equals("1")){
 			thirdRowNumberButtons[0].addMouseListener(new MouseAdapter(){
@@ -263,20 +275,8 @@ public class KeyBoard{
 				@Override
 				public void mouseDown(MouseEvent e){
 					System.out.println("=");
-					expression = label.getText();
-					
-					System.out.println("Text: " + label.getText());
-					
-					if(expression.contains("x"))
-						label.setText((Double.toString(Core.getMoltiplication(expression))));
-					else if(expression.contains(":"))
-						label.setText((Double.toString(Core.getDivision(expression))));
-					else if(expression.contains("+"))
-						label.setText((Double.toString(Core.getAddition(expression))));
-					else if(expression.contains("-"))
-						label.setText((Double.toString(Core.getSubtraction(expression))));
 				}
-				
+
 			});
 		}else if(ident.equals("x")){
 			firstRowNumberButtons[3].addMouseListener(new MouseAdapter(){
@@ -284,7 +284,20 @@ public class KeyBoard{
 				@Override
 				public void mouseDown(MouseEvent e){
 					System.out.println("x");
-					label.setText(label.getText() + " x ");
+					String result = null;
+
+					Core.x = Double.parseDouble(label.getText());
+
+					Core.x = Core.x * Core.y;
+
+					pullDown();
+
+					result = Double.toString(Core.x);
+
+					label.setText(result);
+
+					calculated = true;
+					
 				}
 
 			});
@@ -294,7 +307,22 @@ public class KeyBoard{
 				@Override
 				public void mouseDown(MouseEvent e){
 					System.out.println(":");
-					label.setText(label.getText() + " : ");
+
+					String result = null;
+
+					Core.x = Double.parseDouble(label.getText());
+
+					if(Core.x != 0)
+						Core.x = Core.x / Core.y;
+
+					pullDown();
+
+					result = Double.toString(Core.x);
+
+					label.setText(result);
+
+					calculated = true;
+
 				}
 
 			});
@@ -304,7 +332,21 @@ public class KeyBoard{
 				@Override
 				public void mouseDown(MouseEvent e){
 					System.out.println("+");
-					label.setText(label.getText() + " + ");
+
+					String result = null;
+
+					Core.x = Double.parseDouble(label.getText());
+
+					Core.x = Core.x + Core.y;
+
+					pullDown();
+
+					result = Double.toString(Core.x);
+
+					label.setText(result);
+
+					calculated = true;
+
 				}
 
 			});
@@ -314,11 +356,87 @@ public class KeyBoard{
 				@Override
 				public void mouseDown(MouseEvent e){
 					System.out.println("-");
-					label.setText(label.getText() + " - ");
+					//label.setText(label.getText()
+
+					String result = null;
+
+					Core.x = Double.parseDouble(label.getText());
+
+					Core.x = Core.x - Core.y;
+
+					pullDown();
+
+					result = Double.toString(Core.x);
+
+					label.setText(result);
+
+					calculated = true;
+
+				}
+
+			});
+		}else if(ident.equals("del")){
+			thirdRowNumberButtons[4].addMouseListener(new MouseAdapter(){
+
+				@Override
+				public void mouseDown(MouseEvent e){
+					System.out.println("Del");
+					if(label.getText().endsWith(" "))
+						label.setText(label.getText().substring(0, label.getText().length()-2));
+					else
+						label.setText(label.getText().substring(0, label.getText().length()-1));
+				}
+
+			});
+		}else if(ident.equals("ac")){
+			fourthRowButtons[4].addMouseListener(new MouseAdapter(){
+
+				@Override
+				public void mouseDown(MouseEvent e){
+					System.out.println("AC");
+					label.setText("");
+					System.out.println(Core.x + ":X " + Core.y + ":Y " + Core.z + ":Z " + Core.t + ":T");
+					Core.clearStack();
+					System.out.println(Core.x + ":X " + Core.y + ":Y " + Core.z + ":Z " + Core.t + ":T");
+				}
+
+			});
+		}else if(ident.equals("ent")){
+			firstRowNumberButtons[4].addMouseListener(new MouseAdapter(){
+
+				@Override
+				public void mouseDown(MouseEvent e){
+					System.out.println("Ent");
+
+					Core.x = Double.parseDouble(label.getText());
+
+					pushUp();
+
+					System.err.println("TEXT: " + label.getText());
+
+					label.setText("");
+
 				}
 
 			});
 		}
+
+	}
+
+	private void pullDown(){
+
+		Core.y = Core.z;
+		Core.z = Core.t;
+
+	}
+
+	private void pushUp(){
+
+		Core.t = Core.z;
+		Core.z = Core.y;
+		Core.y = Core.x;
+
+		System.out.println(Core.x + ":X " + Core.y + ":Y " + Core.z + ":Z " + Core.t + ":T");
 
 	}
 
