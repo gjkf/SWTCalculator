@@ -37,8 +37,8 @@ public class KeyBoard{
 
 	private Button[] firstRowNumberButtons = new Button[5];
 	private Button[] secondRowNumberButtons = new Button[4];
-	private Button[] thirdRowNumberButtons = new Button[5];
-	private Button[] fourthRowButtons = new Button[5];
+	private Button[] thirdRowNumberButtons = new Button[7];
+	private Button[] fourthRowButtons = new Button[6];
 
 	public KeyBoard(int x, int y, Shell shell){
 
@@ -97,6 +97,10 @@ public class KeyBoard{
 				thirdRowNumberButtons[i].setText("+");
 			else if(i == 4)
 				thirdRowNumberButtons[i].setText("Del");
+			else if(i == 5)
+				thirdRowNumberButtons[i].setText("sin");
+			else if(i == 6)
+				thirdRowNumberButtons[i].setText("tan");
 		}
 
 		for(int i = 0; i < fourthRowButtons.length; i++){
@@ -107,12 +111,12 @@ public class KeyBoard{
 				fourthRowButtons[i].setText("0");
 			else if(i == 1)
 				fourthRowButtons[i].setText(".");
-			//else if(i == 2)
-			//fourthRowButtons[i].setText("=");
 			else if(i == 3)
 				fourthRowButtons[i].setText("-");
 			else if(i == 4)
 				fourthRowButtons[i].setText("AC");
+			else if(i == 5)
+				fourthRowButtons[i].setText("cos");
 		}
 
 		setListeners("1");
@@ -134,6 +138,9 @@ public class KeyBoard{
 		setListeners("del");
 		setListeners("ac");
 		setListeners("ent");
+		setListeners("sin");
+		setListeners("cos");
+		setListeners("tan");
 
 	}
 
@@ -269,15 +276,6 @@ public class KeyBoard{
 				}
 
 			});
-		}else if(ident.equals("=")){
-			fourthRowButtons[2].addMouseListener(new MouseAdapter(){
-
-				@Override
-				public void mouseDown(MouseEvent e){
-					System.out.println("=");
-				}
-
-			});
 		}else if(ident.equals("x")){
 			firstRowNumberButtons[3].addMouseListener(new MouseAdapter(){
 
@@ -297,7 +295,7 @@ public class KeyBoard{
 					label.setText(result);
 
 					calculated = true;
-					
+
 				}
 
 			});
@@ -381,10 +379,13 @@ public class KeyBoard{
 				@Override
 				public void mouseDown(MouseEvent e){
 					System.out.println("Del");
-					if(label.getText().endsWith(" "))
-						label.setText(label.getText().substring(0, label.getText().length()-2));
-					else
-						label.setText(label.getText().substring(0, label.getText().length()-1));
+					if(label.getText() != null || !label.getText().equals("")){
+						if(label.getText().endsWith(" "))
+							label.setText(label.getText().substring(0, label.getText().length()-2));
+						else
+							label.setText(label.getText().substring(0, label.getText().length()-1));
+					}
+
 				}
 
 			});
@@ -419,6 +420,63 @@ public class KeyBoard{
 				}
 
 			});
+		}else if(ident.contains("sin")){
+			thirdRowNumberButtons[5].addMouseListener(new MouseAdapter(){
+
+				@Override
+				public void mouseDown(MouseEvent e){
+					System.out.println("sin");
+
+					Core.x = Math.sin(Core.x);
+
+					pullDown();
+					pushUp();
+					
+					System.out.println("X: " + Core.x + " Sin(x): " + Math.sin(Core.x));
+
+					label.setText(Double.toString(Core.x));
+
+				}
+
+			});
+		}else if(ident.equals("cos")){
+			fourthRowButtons[5].addMouseListener(new MouseAdapter(){
+
+				@Override
+				public void mouseDown(MouseEvent e){
+					System.out.println("cos");
+
+					System.out.println("X: " + Core.x + " Cos(x): " + Math.cos(Core.x));
+
+					Core.x = Math.cos(Core.x);
+					
+					pullDown();
+					pushUp();
+
+					label.setText(Double.toString(Core.x));
+
+				}
+
+			});
+		}else if(ident.equals("tan")){
+			thirdRowNumberButtons[6].addMouseListener(new MouseAdapter(){
+
+				@Override
+				public void mouseDown(MouseEvent e){
+					System.out.println("tan");
+
+					System.out.println("X: " + Core.x + " Tan(x): " + Math.tan(Core.x));
+
+					Core.x = Math.tan(Core.x);
+					
+					pullDown();
+					pushUp();
+
+					label.setText(Double.toString(Core.x));
+
+				}
+
+			});
 		}
 
 	}
@@ -435,8 +493,6 @@ public class KeyBoard{
 		Core.t = Core.z;
 		Core.z = Core.y;
 		Core.y = Core.x;
-
-		System.out.println(Core.x + ":X " + Core.y + ":Y " + Core.z + ":Z " + Core.t + ":T");
 
 	}
 
