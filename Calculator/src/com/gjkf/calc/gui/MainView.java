@@ -38,7 +38,7 @@ public class MainView{
 
 	private KeyBoard keyBoard;
 
-	private static CLabel expressionLabel, xStackLabel, yStackLabel, zStackLabel, tStackLabel;
+	private static CLabel expressionLabel, xStackLabel, yStackLabel, zStackLabel, tStackLabel, yLabel;
 
 	private Text formulaField;
 
@@ -75,6 +75,10 @@ public class MainView{
 		expressionLabel = new CLabel(shell, SWT.SHADOW_IN);
 		expressionLabel.setBounds(300, 300, 650, 100);
 		
+		yLabel = new CLabel(shell, SWT.SHADOW_NONE);
+		yLabel.setBounds(300, 490, 30, 40);
+		yLabel.setText("y = ");
+		
 		initStackLabels();
 
 	}
@@ -97,8 +101,8 @@ public class MainView{
 	private void initTextField(){
 
 		formulaField = new Text(shell, SWT.CENTER);
-		formulaField.setBounds(300, 500, 650, 30);
-		formulaField.setMessage("Insert Here the Formula");
+		formulaField.setBounds(300, 500, 650, 20);
+		formulaField.setMessage("Insert Here the Formula to Graph");
 
 		formulaField.addKeyListener(new KeyListener() {
 
@@ -110,9 +114,10 @@ public class MainView{
 
 				if(e.keyCode == 13){
 
-					//TODO: calculate
-					setCalculated(true);
+					System.err.println(formula);
 
+					Core.getY(formula);
+					
 				}
 
 			}

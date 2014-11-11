@@ -21,9 +21,34 @@ public class Core{
 	public static double x = 0, y = 0, z = 0, t = 0;
 
 	public static void clearStack(){
-		
+
 		x = 0; y = 0; z = 0; t = 0;
-		
+
 	}
-	
+
+	public static double getY(String formula){
+
+		if(formula != null){
+
+			String[] args;
+
+			args = formula.split(" ");
+
+			for(int i = 0; i < args.length; i++){
+				System.out.println(args[i]);
+
+				if(args[i].equals("*") || args[i].equals("/") || args[i].equals("+") || args[i].equals("-")){
+
+					System.err.println(args[i]);
+					
+				}
+
+			}
+
+		}
+		
+		return Double.NaN;
+
+	}
+
 }
