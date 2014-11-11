@@ -32,21 +32,116 @@ public class Core{
 
 			String[] args;
 
+			double yValue, tempX = 0., tempY = 0.,currX;
+
+			String oper = "";
+
+			boolean flag = false;
+
 			args = formula.split(" ");
 
-			for(int i = 0; i < args.length; i++){
-				System.out.println(args[i]);
+			for(currX = -2; currX < 2; currX += 0.5){
 
-				if(args[i].equals("*") || args[i].equals("/") || args[i].equals("+") || args[i].equals("-")){
+				for(int i = 0; i < args.length; i++){
 
-					System.err.println(args[i]);
-					
+					//System.out.println("Args[i]: " + args[i] + " " + i);
+
+					//System.err.println("CurrX: " + currX);
+
+					if(args[i].equalsIgnoreCase("x")){
+
+						if(flag)
+							tempX = currX;
+						else
+							tempY = currX;
+
+					}else{
+
+						if(args[i].equals("*") || args[i].equals("/") || args[i].equals("+") || args[i].equals("-")){
+
+							//System.out.println("ArgsOperation[i]: " + args[i] + " " + i);
+
+							oper = args[i];
+
+							flag = true;
+
+							//System.out.println("Flag: " + flag);
+
+							continue;
+
+						}
+
+						//System.out.println("Flag: " + flag);
+
+						if(flag)
+							tempX = Double.parseDouble(args[i]);
+						else
+							tempY = Double.parseDouble(args[i]);
+
+					}
+
+					//System.out.println("TempX: " + tempX);
+					//System.out.println("TempY: " + tempY);
+
+					if(flag){
+
+						flag  = false;
+
+						if(oper.equals("+")){
+							yValue = tempX + tempY;
+
+							tempY = yValue;
+
+							System.out.println("X: " + currX);
+							System.out.println("Y: " + yValue + "\n");
+						}
+
+						if(oper.equals("*")){
+							yValue = tempX * tempY;
+
+							tempY = yValue;
+
+							System.out.println("X: " + currX);
+							System.out.println("Y: " + yValue + "\n");
+						}
+
+						if(oper.equals("-")){
+							yValue = tempY - tempX;
+
+							tempY = yValue;
+
+							System.out.println("X: " + currX);
+							System.out.println("Y: " + yValue + "\n");
+						}
+
+						if(oper.equals("/")){
+
+							if(tempX != 0){
+
+								yValue = tempY / tempX;
+
+								tempY = yValue;
+
+								System.out.println("X: " + currX);
+								System.out.println("Y: " + yValue + "\n");
+
+							}else{
+								
+								System.err.println("Exception Occurred: Can't divide by '0'");
+								
+							}
+						}
+
+					}
+
 				}
+
+
 
 			}
 
 		}
-		
+
 		return Double.NaN;
 
 	}
