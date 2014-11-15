@@ -22,6 +22,7 @@ import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
@@ -38,17 +39,18 @@ public class MainView{
 
 	private KeyBoard keyBoard;
 
-	private static CLabel expressionLabel, xStackLabel, yStackLabel, zStackLabel, tStackLabel, yLabel;
+	private static CLabel expressionLabel, xStackLabel, yStackLabel, zStackLabel, tStackLabel, yLabel, multLabel;
 
-	private Text formulaField;
+	private Text formulaField, multiplierTextField;
+
+	private static GC gc;
 
 	private boolean extended = false;
-	private static boolean calculated = false;
 
 	// Time in ms
 	private int time = 10;
 
-	private String formula; 
+	private String formula = ""; 
 
 	public void init(Display d){
 
@@ -68,23 +70,30 @@ public class MainView{
 
 		center();
 		open();
+
+	}
+
+	public static void draw(int x1, int y1, int x2, int y2){
+
+		gc = new GC(shell);
+
+		gc.drawLine(x1, y1, x2, y2);
+
+		gc.dispose();
+
 	}
 
 	private void initLabels(){
 
 		expressionLabel = new CLabel(shell, SWT.SHADOW_IN);
 		expressionLabel.setBounds(300, 300, 650, 100);
-		
-		yLabel = new CLabel(shell, SWT.SHADOW_NONE);
-		yLabel.setBounds(300, 490, 30, 40);
-		yLabel.setText("y = ");
-		
+
 		initStackLabels();
 
 	}
-	
+
 	private void initStackLabels(){
-		
+
 		if(extended){
 			xStackLabel = new CLabel(shell, SWT.SHADOW_NONE);
 			xStackLabel.setBounds(25, 170, 250, 30);
@@ -95,10 +104,22 @@ public class MainView{
 			tStackLabel = new CLabel(shell, SWT.SHADOW_NONE);
 			tStackLabel.setBounds(25, 260, 250, 30);
 		}
-		
+
 	}
 
 	private void initTextField(){
+
+		multLabel = new CLabel(shell, SWT.SHADOW_NONE);
+		multLabel.setBounds(50, 490, 50, 40);
+		multLabel.setText("Mult = ");
+		
+		multiplierTextField = new Text(shell, SWT.CENTER);
+		multiplierTextField.setBounds(100, 500, 30, 20);
+		multiplierTextField.setMessage("Mult");
+
+		yLabel = new CLabel(shell, SWT.SHADOW_NONE);
+		yLabel.setBounds(300, 490, 30, 40);
+		yLabel.setText("y = ");
 
 		formulaField = new Text(shell, SWT.CENTER);
 		formulaField.setBounds(300, 500, 650, 20);
@@ -114,10 +135,13 @@ public class MainView{
 
 				if(e.keyCode == 13){
 
-					System.err.println(formula);
+					System.out.println(formula);
 
-					Core.getY(formula);
-					
+					if(!multiplierTextField.getText().equals(""))
+						Core.draw(formula, Double.parseDouble(multiplierTextField.getText()));
+					else
+						formulaField.setText("Insert a Multiplier into the text field to the right");
+
 				}
 
 			}
@@ -139,25 +163,29 @@ public class MainView{
 				extended = !extended;
 
 				if(extended){
+
 					keyBoard = new KeyBoard(25, 300, shell);
 					keyBoard.initKeyBoard();
 
 					formulaField.dispose();
-					
+
+					yLabel.dispose();
+
 					initStackLabels();
 
 					shell.layout();
+
 				}else{
+
 					keyBoard.dispose();
-					
+
 					xStackLabel.dispose();
 					yStackLabel.dispose();
 					zStackLabel.dispose();
 					tStackLabel.dispose();
 
-					formulaField = new Text(shell, SWT.CENTER);
-					formulaField.setBounds(300, 500, 650, 30);
-					formulaField.setMessage("Insert Here the Formula");
+					initTextField();
+
 				}
 			}
 
@@ -177,15 +205,18 @@ public class MainView{
 
 				if(!formulaField.isDisposed()){
 
-					if(!isCalculated()){
-						formula = formulaField.getText();
-					}
+					if(!formula.equals(formulaField.getText()))
+						shell.redraw();
 
-					if(!extended && !isCalculated())
+					formula = formulaField.getText();
+
+					if(!extended)
 						expressionLabel.setText(formula);
 
-					if(!formulaField.getText().equals(formula))
-						setCalculated(false);
+				}else{
+
+					initTextField();
+
 				}
 
 				if(extended && xStackLabel != null && yStackLabel != null && zStackLabel != null && tStackLabel != null){
@@ -194,8 +225,6 @@ public class MainView{
 					zStackLabel.setText("Z: " + Core.z);
 					tStackLabel.setText("T: " + Core.t);
 				}
-
-				shell.redraw();
 
 			}
 		};
@@ -211,27 +240,18 @@ public class MainView{
 	public static CLabel getXStackLabel(){
 		return xStackLabel;
 	}
-	
+
 	public static CLabel getYStackLabel(){
 		return yStackLabel;
 	}
-	
+
 	public static CLabel getZStackLabel(){
 		return zStackLabel;
 	}
-	
+
 	public static CLabel getTStackLabel(){
 		return tStackLabel;
 	}
-
-	public static boolean isCalculated(){
-		return calculated;
-	}
-
-	public static void setCalculated(boolean calc){
-		calculated = calc;
-	}
-
 
 	/*
 	 * This ensures that the shell stays open until it's closed

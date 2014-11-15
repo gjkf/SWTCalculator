@@ -16,6 +16,8 @@
 
 package com.gjkf.calc.core;
 
+import com.gjkf.calc.gui.MainView;
+
 public class Core{
 
 	public static double x = 0, y = 0, z = 0, t = 0;
@@ -26,28 +28,26 @@ public class Core{
 
 	}
 
-	public static double getY(String formula){
+	public static void draw(String formula, double multiplier){
+
+		String[] args;
+
+		double yValue = 0., tempX = 0., tempY = 0., currX, oldX = 0., oldY = 0.;
+
+		String oper = "";
+
+		boolean flag = false;
+		
+		int var = (int) (-100 * multiplier);
 
 		if(formula != null){
 
-			String[] args;
-
-			double yValue, tempX = 0., tempY = 0.,currX;
-
-			String oper = "";
-
-			boolean flag = false;
-
 			args = formula.split(" ");
 
-			for(currX = -2; currX < 2; currX += 0.5){
+			for(currX = var; currX < -var; currX += 1){
 
 				for(int i = 0; i < args.length; i++){
-
-					//System.out.println("Args[i]: " + args[i] + " " + i);
-
-					//System.err.println("CurrX: " + currX);
-
+					
 					if(args[i].equalsIgnoreCase("x")){
 
 						if(flag)
@@ -57,7 +57,7 @@ public class Core{
 
 					}else{
 
-						if(args[i].equals("*") || args[i].equals("/") || args[i].equals("+") || args[i].equals("-")){
+						if(args[i].equals("*") || args[i].equals("/") || args[i].equals("+") || args[i].equals("-") || args[i].equals("sin") || args[i].equals("cos")){
 
 							//System.out.println("ArgsOperation[i]: " + args[i] + " " + i);
 
@@ -88,30 +88,36 @@ public class Core{
 						flag  = false;
 
 						if(oper.equals("+")){
+							
 							yValue = tempX + tempY;
 
 							tempY = yValue;
 
 							System.out.println("X: " + currX);
 							System.out.println("Y: " + yValue + "\n");
+							
 						}
-
+						
 						if(oper.equals("*")){
+							
 							yValue = tempX * tempY;
 
 							tempY = yValue;
 
 							System.out.println("X: " + currX);
 							System.out.println("Y: " + yValue + "\n");
+							
 						}
 
 						if(oper.equals("-")){
+							
 							yValue = tempY - tempX;
 
 							tempY = yValue;
 
 							System.out.println("X: " + currX);
 							System.out.println("Y: " + yValue + "\n");
+							
 						}
 
 						if(oper.equals("/")){
@@ -126,23 +132,40 @@ public class Core{
 								System.out.println("Y: " + yValue + "\n");
 
 							}else{
-								
+
 								System.err.println("Exception Occurred: Can't divide by '0'");
-								
+
 							}
+
 						}
+						
+						if(oper.equals("sin")){
+							
+							yValue = Math.sin(currX);
+							
+							System.out.println(yValue);
+							
+						}
+						
+						if(oper.equals("cos")){
+							
+							yValue = Math.cos(currX);
+							
+						}
+
+						if(currX != var)
+							MainView.draw(400 + (int) oldX * (int) multiplier, 185 - (int) oldY * (int) multiplier, 400 + (int) currX * (int) multiplier, 185 - (int) yValue * (int) multiplier);
+						
+						oldX = currX;
+						oldY = yValue;
 
 					}
 
 				}
 
-
-
 			}
 
 		}
-
-		return Double.NaN;
 
 	}
 
