@@ -36,17 +36,32 @@ public class Core{
 
 		String oper = "";
 
+		// This stores wether or not I've already put a value in the 'x'
 		boolean flag = false;
 		
 		int var = (int) (-100 * multiplier);
 
+		/*
+		 * Checks if the given formula is not null
+		 */
+		
 		if(formula != null){
 
+			/*
+			 * Puts the split String inside an array. It splits the formula at each space
+			 */
+			
 			args = formula.split(" ");
 
 			for(currX = var; currX < -var; currX += 1){
 
 				for(int i = 0; i < args.length; i++){
+
+					/*
+					 * If the element at the 'i' position is an 'x', otherwise I check if it's an operator 
+					 */
+					
+					//System.out.println("Args[i]: " + args[i] + " " + i);
 					
 					if(args[i].equalsIgnoreCase("x")){
 
@@ -54,13 +69,14 @@ public class Core{
 							tempX = currX;
 						else
 							tempY = currX;
-
+						
 					}else{
 
 						if(args[i].equals("*") || args[i].equals("/") || args[i].equals("+") || args[i].equals("-") || args[i].equals("sin") || args[i].equals("cos")){
 
 							//System.out.println("ArgsOperation[i]: " + args[i] + " " + i);
 
+							// I put the element inside the "oper" variable
 							oper = args[i];
 
 							flag = true;
@@ -73,6 +89,10 @@ public class Core{
 
 						//System.out.println("Flag: " + flag);
 
+						/*
+						 * If I already have a value stored, I put in the "tempX" varable the current element of the array, otherwise I put it in the 'Y' value
+						 */
+						
 						if(flag)
 							tempX = Double.parseDouble(args[i]);
 						else
@@ -83,6 +103,10 @@ public class Core{
 					//System.out.println("TempX: " + tempX);
 					//System.out.println("TempY: " + tempY);
 
+					/*
+					 * If I have a value, I must have another one ready to be calculated, so I check what operator I've stored before and do the proper calculation
+					 */
+					
 					if(flag){
 
 						flag  = false;
@@ -141,20 +165,38 @@ public class Core{
 						
 						if(oper.equals("sin")){
 							
-							yValue = Math.sin(currX);
+							yValue = Math.sin((tempX / 180) * Math.PI);
 							
-							System.out.println(yValue);
+							tempY = yValue;
+							
+							//System.out.println("sin(45): " + Math.sin(Math.toDegrees(45)));
+							
+							System.out.println("X: " + currX);
+							System.out.println("Y: " + yValue + "\n");
 							
 						}
 						
 						if(oper.equals("cos")){
 							
-							yValue = Math.cos(currX);
+							yValue = Math.cos((tempX / 180) * Math.PI);
+
+							tempY = yValue;
+							
+							System.out.println("X: " + currX);
+							System.out.println("Y: " + yValue + "\n");
 							
 						}
 
+						/*
+						 * If the currX (incremented in the for loop) is not equals to the var, so it's not the first time, I draw the point
+						 */
+						
 						if(currX != var)
 							MainView.draw(400 + (int) oldX * (int) multiplier, 185 - (int) oldY * (int) multiplier, 400 + (int) currX * (int) multiplier, 185 - (int) yValue * (int) multiplier);
+						
+						/*
+						 * I make sure to store the "old" 'x' and 'y' values in other values for later use (see the draw line above) 
+						 */
 						
 						oldX = currX;
 						oldY = yValue;

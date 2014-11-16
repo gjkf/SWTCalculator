@@ -110,12 +110,35 @@ public class MainView{
 	private void initTextField(){
 
 		multLabel = new CLabel(shell, SWT.SHADOW_NONE);
-		multLabel.setBounds(50, 490, 50, 40);
-		multLabel.setText("Mult = ");
+		multLabel.setBounds(55, 490, 100, 40);
+		multLabel.setText("Multiplier = ");
 		
 		multiplierTextField = new Text(shell, SWT.CENTER);
-		multiplierTextField.setBounds(100, 500, 30, 20);
-		multiplierTextField.setMessage("Mult");
+		multiplierTextField.setBounds(150, 500, 70, 20);
+		multiplierTextField.setMessage("Multiplier");
+		
+		multiplierTextField.addKeyListener(new KeyListener() {
+
+			@Override
+			public void keyReleased(KeyEvent e){}
+
+			@Override
+			public void keyPressed(KeyEvent e){
+
+				if(e.keyCode == 13){
+
+					System.out.println(formula);
+
+					if(!multiplierTextField.getText().equals(""))
+						Core.draw(formula, Double.parseDouble(multiplierTextField.getText()));
+					else
+						formulaField.setText("Insert a Multiplier into the text field to the left");
+
+				}
+
+			}
+
+		});
 
 		yLabel = new CLabel(shell, SWT.SHADOW_NONE);
 		yLabel.setBounds(300, 490, 30, 40);
@@ -140,7 +163,7 @@ public class MainView{
 					if(!multiplierTextField.getText().equals(""))
 						Core.draw(formula, Double.parseDouble(multiplierTextField.getText()));
 					else
-						formulaField.setText("Insert a Multiplier into the text field to the right");
+						formulaField.setText("Insert a Multiplier into the text field to the left");
 
 				}
 
@@ -164,12 +187,14 @@ public class MainView{
 
 				if(extended){
 
-					keyBoard = new KeyBoard(25, 300, shell);
-					keyBoard.initKeyBoard();
-
+					multiplierTextField.dispose();
 					formulaField.dispose();
 
 					yLabel.dispose();
+					multLabel.dispose();
+					
+					keyBoard = new KeyBoard(25, 300, shell);
+					keyBoard.initKeyBoard();
 
 					initStackLabels();
 
@@ -194,7 +219,7 @@ public class MainView{
 	}
 
 	/*
-	 * Timer to update the Label
+	 * Timer to update the Label and do some other cool stuff
 	 */
 
 	private void initTimer(){
@@ -212,10 +237,6 @@ public class MainView{
 
 					if(!extended)
 						expressionLabel.setText(formula);
-
-				}else{
-
-					initTextField();
 
 				}
 
