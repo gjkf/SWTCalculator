@@ -32,7 +32,7 @@ import com.gjkf.calc.core.Core;
 
 public class MainView{
 
-	private Display display;
+	private static Display display;
 	private static Shell shell;
 
 	private Button extendButton;
@@ -45,13 +45,15 @@ public class MainView{
 
 	private static GC gc;
 
-	private boolean extended = false;
+	private static boolean extended = false, changed = false;
 
 	// Time in ms
 	private int time = 10;
+	public static int drawCicle;
 
 	private String formula = ""; 
 
+	@SuppressWarnings("static-access")
 	public void init(Display d){
 
 		this.display = d;
@@ -73,10 +75,29 @@ public class MainView{
 
 	}
 
-	public static void draw(int x1, int y1, int x2, int y2){
+	public static void draw(int x1, int y1, int x2, int y2, int cicle){
 
 		gc = new GC(shell);
-
+		
+		System.out.println("Draw:Cicle: " + cicle);
+		
+		if(cicle <= 0)
+			gc.setForeground(display.getSystemColor(SWT.COLOR_BLACK));
+		else if(cicle == 1)
+			gc.setForeground(display.getSystemColor(SWT.COLOR_RED));
+		else if(cicle == 2)
+			gc.setForeground(display.getSystemColor(SWT.COLOR_BLUE));
+		else if(cicle == 3)
+			gc.setForeground(display.getSystemColor(SWT.COLOR_GREEN));
+		else if(cicle == 4)
+			gc.setForeground(display.getSystemColor(SWT.COLOR_CYAN));
+		else if(cicle == 5)
+			gc.setForeground(display.getSystemColor(SWT.COLOR_MAGENTA));
+		else if(cicle == 6)
+			gc.setForeground(display.getSystemColor(SWT.COLOR_YELLOW));
+		else if(cicle == 7)
+			gc.setForeground(display.getSystemColor(SWT.COLOR_WHITE));
+		
 		gc.drawLine(x1, y1, x2, y2);
 
 		gc.dispose();
@@ -130,7 +151,7 @@ public class MainView{
 					System.out.println(formula);
 
 					if(!multiplierTextField.getText().equals(""))
-						Core.draw(formula, Double.parseDouble(multiplierTextField.getText()));
+						Core.draw(formula, Double.parseDouble(multiplierTextField.getText()), drawCicle);
 					else
 						formulaField.setText("Insert a Multiplier into the text field to the left");
 
@@ -161,7 +182,7 @@ public class MainView{
 					System.out.println(formula);
 
 					if(!multiplierTextField.getText().equals(""))
-						Core.draw(formula, Double.parseDouble(multiplierTextField.getText()));
+						Core.draw(formula, Double.parseDouble(multiplierTextField.getText()), drawCicle);
 					else
 						formulaField.setText("Insert a Multiplier into the text field to the left");
 
@@ -223,18 +244,23 @@ public class MainView{
 	 */
 
 	private void initTimer(){
-
+		
 		Runnable timer = new Runnable() {
 			public void run() {
 				display.timerExec(time, this);
 
 				if(!formulaField.isDisposed()){
 
-					if(!formula.equals(formulaField.getText()))
-						shell.redraw();
+					if(!formula.equals(formulaField.getText())){
+						shell.redraw(); 
+						changed = true;
+						resetCicle();
+					}
 
 					formula = formulaField.getText();
 
+					changed = false;
+					
 					if(!extended)
 						expressionLabel.setText(formula);
 
@@ -274,6 +300,22 @@ public class MainView{
 		return tStackLabel;
 	}
 
+	public static boolean isChanged(){
+		return changed;
+	}
+
+	public static void setChanged(boolean changed){
+		MainView.changed = changed;
+	}
+	
+	public static void augmentCicle(){
+		drawCicle++;
+	}
+	
+	public static void resetCicle(){
+		drawCicle = 0;
+	}
+	
 	/*
 	 * This ensures that the shell stays open until it's closed
 	 */

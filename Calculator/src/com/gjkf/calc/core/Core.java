@@ -28,7 +28,7 @@ public class Core{
 
 	}
 
-	public static void draw(String formula, double multiplier){
+	public static void draw(String formula, double multiplier, int cicle){
 
 		String[] args;
 
@@ -192,7 +192,7 @@ public class Core{
 						 */
 						
 						if(currX != var)
-							MainView.draw(400 + (int) oldX * (int) multiplier, 185 - (int) oldY * (int) multiplier, 400 + (int) currX * (int) multiplier, 185 - (int) yValue * (int) multiplier);
+							MainView.draw(400 + (int) oldX * (int) multiplier, 185 - (int) oldY * (int) multiplier, 400 + (int) currX * (int) multiplier, 185 - (int) yValue * (int) multiplier, cicle);
 						
 						/*
 						 * I make sure to store the "old" 'x' and 'y' values in other values for later use (see the draw line above) 
@@ -207,8 +207,15 @@ public class Core{
 
 			}
 
+			if(!MainView.isChanged())
+				MainView.augmentCicle();
+			
+			//System.out.println("Changed: " + MainView.isChanged() + "\n");
+			//System.err.println("Cicle: " + cicle + "\n");
+			//System.err.println("MainViewCicle: " + MainView.drawCicle + "\n");
+			
 		}
-
+		
 	}
 
 }
