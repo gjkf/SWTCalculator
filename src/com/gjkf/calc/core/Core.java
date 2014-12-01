@@ -29,10 +29,13 @@ public class Core{
 	}
 
 	/**
+	 * It calculates <code>y</code> with the given formula
 	 *
-	 * @param formula
-	 * @param multiplier
-	 * @param cycle
+	 * @param formula The given formula
+	 * @param multiplier The multiplier, used to zoom
+	 * @param cycle The current cycle
+	 *
+	 * @see com.gjkf.calc.gui.MainView
 	 */
 
 	public static void draw(String formula, double multiplier, int cycle){
@@ -43,7 +46,7 @@ public class Core{
 
 		String oper = "";
 
-		// This stores wether or not I've already put a value in the 'x'
+		// This stores whether or not I've already put a value in the 'x'
 		boolean flag = false;
 		
 		int var = (int) (-100 * multiplier);

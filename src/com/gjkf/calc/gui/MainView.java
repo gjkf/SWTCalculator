@@ -35,15 +35,11 @@ public class MainView{
 	private static Display display;
 	private static Shell shell;
 
-	private Button extendButton;
-
 	private KeyBoard keyBoard;
 
 	private static CLabel expressionLabel, xStackLabel, yStackLabel, zStackLabel, tStackLabel, yLabel, multLabel;
 
 	private Text formulaField, multiplierTextField;
-
-	private static GC gc;
 
 	private static boolean extended = false, changed = false;
 
@@ -77,7 +73,7 @@ public class MainView{
 
 	public static void draw(int x1, int y1, int x2, int y2, int cycle){
 
-		gc = new GC(shell);
+		GC gc = new GC(shell);
 		
 		System.out.println("Draw:cycle: " + cycle);
 		
@@ -197,7 +193,7 @@ public class MainView{
 
 	private void initButtons(){
 
-		extendButton = new Button(shell, SWT.PUSH);
+		Button extendButton = new Button(shell, SWT.PUSH);
 		extendButton.setBounds(0, 10, 40, 25);
 		extendButton.setText("...");
 		extendButton.addMouseListener(new MouseAdapter(){
@@ -240,7 +236,7 @@ public class MainView{
 
 	}
 
-	/*
+	/**
 	 * Timer to update the Label and do some other cool stuff
 	 */
 
