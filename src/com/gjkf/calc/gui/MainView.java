@@ -71,6 +71,18 @@ public class MainView{
 
 	}
 
+	/**
+	 * It draws a line between the 2 coordinates, with the colour based on the current cycle
+	 *
+	 * @param x1 The first X coordinate
+	 * @param y1 The second X coordinate
+	 * @param x2 The first Y coordinate
+	 * @param y2 The second X coordinate
+	 * @param cycle The current cycle we're in, used to change colour of the line we draw
+	 *
+	 * @see com.gjkf.calc.core.Core
+	 */
+
 	public static void draw(int x1, int y1, int x2, int y2, int cycle){
 
 		GC gc = new GC(shell);
@@ -141,6 +153,10 @@ public class MainView{
 
 			@Override
 			public void keyPressed(KeyEvent e){
+
+				/**
+				 * The <code>key code</code> corresponding to 13 is the Enter Key
+				 */
 
 				if(e.keyCode == 13){
 
@@ -251,7 +267,7 @@ public class MainView{
 					if(!formula.equals(formulaField.getText())){
 						shell.redraw(); 
 						changed = true;
-						resetCicle();
+						resetCycle();
 					}
 
 					formula = formulaField.getText();
@@ -281,35 +297,15 @@ public class MainView{
 		return expressionLabel;
 	}
 
-	public static CLabel getXStackLabel(){
-		return xStackLabel;
-	}
-
-	public static CLabel getYStackLabel(){
-		return yStackLabel;
-	}
-
-	public static CLabel getZStackLabel(){
-		return zStackLabel;
-	}
-
-	public static CLabel getTStackLabel(){
-		return tStackLabel;
-	}
-
 	public static boolean isChanged(){
 		return changed;
 	}
 
-	public static void setChanged(boolean changed){
-		MainView.changed = changed;
-	}
-	
-	public static void augmentCicle(){
+	public static void augmentCycle(){
 		drawCycle++;
 	}
 	
-	public static void resetCicle(){
+	public static void resetCycle(){
 		drawCycle = 0;
 	}
 	
