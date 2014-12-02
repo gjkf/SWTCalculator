@@ -128,6 +128,8 @@ public class Core{
 
 						System.err.println("Exception Occurred: Can't divide by '0'");
 
+						MainView.getLabel().setText("Exception Occurred: Can't divide by '0'");
+
 					}
 
 				}

@@ -104,7 +104,7 @@ public class MainView{
 			gc.setForeground(display.getSystemColor(SWT.COLOR_YELLOW));
 		else if(cycle == 7)
 			gc.setForeground(display.getSystemColor(SWT.COLOR_WHITE));
-		
+
 		gc.drawLine(x1, y1, x2, y2);
 
 		gc.dispose();
@@ -161,7 +161,7 @@ public class MainView{
 
 					System.out.println(formula);
 
-					//Core.draw(formula, Double.parseDouble(multiplierTextField.getText()), drawCycle);
+//					Core.draw(formula, Double.parseDouble(multiplierTextField.getText()), drawCycle);
 					if(!multiplierTextField.getText().equals(""))
 						Core.calculateAndDraw(formula, Double.parseDouble(multiplierTextField.getText()), drawCycle);
 					else
@@ -193,6 +193,8 @@ public class MainView{
 				if(e.keyCode == 13){
 
 					System.out.println(formula);
+
+//					Core.draw(formula, Double.parseDouble(multiplierTextField.getText()), drawCycle);
 					if(!multiplierTextField.getText().equals(""))
 						Core.calculateAndDraw(formula, Double.parseDouble(multiplierTextField.getText()), drawCycle);
 					else
