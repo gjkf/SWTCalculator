@@ -28,6 +28,82 @@ public class Core{
 
 	}
 
+	private void calculate(String formula){
+
+		String[] parsedString, inBraceFormulaArray;
+
+		String operator = "";
+
+		boolean hasSomething = false, isInBrace = false;
+
+		// Splits the formula at each space
+		parsedString = formula.split(" ");
+
+		for(int i = 0; i < parsedString.length; i++){
+
+			System.out.println("ParsedString: " + parsedString[i]);
+
+			if(parsedString[i].equalsIgnoreCase("x")){
+
+			}else{
+
+				if(parsedString[i].equals("+") || parsedString[i].equals("-") || parsedString[i].equals("*") || parsedString[i].equals("/")){
+
+					operator = parsedString[i];
+
+					hasSomething = true;
+
+					continue;
+
+				}
+
+				if(parsedString[i].equals("(")){
+
+					isInBrace = true;
+
+				}
+
+				if(parsedString[i].equals(")")){
+
+					isInBrace = false;
+
+				}
+
+			}
+
+		}
+
+	}
+
+	/**
+	 * It parses the given formula and it calculates the <code>y</code> coordinate and then it draws
+	 * The <code>x</code> coordinate is inside the code itself
+	 *
+	 * @param formula The given formula to parse
+	 * @param multiplier The multiplier, used to zoom
+	 * @param cycle The current cycle, used to change the line colour
+	 *
+	 * @see com.gjkf.calc.gui.MainView
+	 */
+
+	public static void calculateAndDraw(String formula, double multiplier, int cycle){
+
+		String[] parsedString;
+
+		double yValue = 0., tempY = 0., tempX = 0., oldX = 0., oldY = 0., currX = 0.;
+
+		boolean hasSomething = false, isInBrace = false;
+
+		String operator = "", inBraceFormula = "";
+
+		int var = (int) (-100 * multiplier);
+
+		if(formula != null){
+
+		}
+
+	}
+
 	/**
 	 * It calculates <code>y</code> with the given formula
 	 *
@@ -48,19 +124,19 @@ public class Core{
 
 		// This stores whether or not I've already put a value in the 'x'
 		boolean flag = false;
-		
+
 		int var = (int) (-100 * multiplier);
 
 		/*
 		 * Checks if the given formula is not null
 		 */
-		
+
 		if(formula != null){
 
 			/*
 			 * Puts the split String inside an array. It splits the formula at each space
 			 */
-			
+
 			args = formula.split(" ");
 
 			for(currX = var; currX < -var; currX += 1){
@@ -218,13 +294,13 @@ public class Core{
 
 			if(!MainView.isChanged())
 				MainView.augmentCycle();
-			
+
 			//System.out.println("Changed: " + MainView.isChanged() + "\n");
 			//System.err.println("Cicle: " + cicle + "\n");
 			//System.err.println("MainViewCicle: " + MainView.drawCicle + "\n");
-			
+
 		}
-		
+
 	}
 
 }

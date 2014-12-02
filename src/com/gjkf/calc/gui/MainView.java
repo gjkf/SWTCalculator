@@ -16,6 +16,7 @@
 
 package com.gjkf.calc.gui;
 
+import com.gjkf.calc.core.Core;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.events.KeyEvent;
@@ -27,8 +28,6 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
-
-import com.gjkf.calc.core.Core;
 
 public class MainView{
 
@@ -162,8 +161,9 @@ public class MainView{
 
 					System.out.println(formula);
 
+					//Core.draw(formula, Double.parseDouble(multiplierTextField.getText()), drawCycle);
 					if(!multiplierTextField.getText().equals(""))
-						Core.draw(formula, Double.parseDouble(multiplierTextField.getText()), drawCycle);
+						Core.calculateAndDraw(formula, Double.parseDouble(multiplierTextField.getText()), drawCycle);
 					else
 						formulaField.setText("Insert a Multiplier into the text field to the left");
 
@@ -193,9 +193,8 @@ public class MainView{
 				if(e.keyCode == 13){
 
 					System.out.println(formula);
-
-					if(! multiplierTextField.getText().equals(""))
-						Core.draw(formula, Double.parseDouble(multiplierTextField.getText()), drawCycle);
+					if(!multiplierTextField.getText().equals(""))
+						Core.calculateAndDraw(formula, Double.parseDouble(multiplierTextField.getText()), drawCycle);
 					else
 						formulaField.setText("Insert a Multiplier into the text field to the left");
 
