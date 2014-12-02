@@ -34,7 +34,9 @@ public class Core{
 
 		String operator = "";
 
-		boolean hasSomething = false, isInBrace = false;
+		double yValue = 0., tempY = 0., tempX = 0., oldX = 0., oldY = 0., currX = 0.;
+
+		boolean hasSomething = false;
 
 		// Splits the formula at each space
 		parsedString = formula.split(" ");
@@ -44,6 +46,16 @@ public class Core{
 			System.out.println("ParsedString: " + parsedString[i]);
 
 			if(parsedString[i].equalsIgnoreCase("x")){
+
+				if(hasSomething){
+
+					tempX = currX;
+
+				}else{
+
+					tempY = currX;
+
+				}
 
 			}else{
 
@@ -57,15 +69,66 @@ public class Core{
 
 				}
 
-				if(parsedString[i].equals("(")){
+			}
 
-					isInBrace = true;
+			if(hasSomething)
+				tempX = Double.parseDouble(parsedString[i]);
+			else
+				tempY = Double.parseDouble(parsedString[i]);
+
+			if(hasSomething){
+
+				hasSomething = false;
+
+				if(operator.equals("+")){
+
+					yValue = tempX + tempY;
+
+					tempY = yValue;
+
+					System.out.println("X: " + currX);
+					System.out.println("Y: " + yValue + "\n");
 
 				}
 
-				if(parsedString[i].equals(")")){
+				if(operator.equals("*")){
 
-					isInBrace = false;
+					yValue = tempX * tempY;
+
+					tempY = yValue;
+
+					System.out.println("X: " + currX);
+					System.out.println("Y: " + yValue + "\n");
+
+				}
+
+				if(operator.equals("-")){
+
+					yValue = tempY - tempX;
+
+					tempY = yValue;
+
+					System.out.println("X: " + currX);
+					System.out.println("Y: " + yValue + "\n");
+
+				}
+
+				if(operator.equals("/")){
+
+					if(tempX != 0){
+
+						yValue = tempY / tempX;
+
+						tempY = yValue;
+
+						System.out.println("X: " + currX);
+						System.out.println("Y: " + yValue + "\n");
+
+					}else{
+
+						System.err.println("Exception Occurred: Can't divide by '0'");
+
+					}
 
 				}
 
@@ -98,7 +161,33 @@ public class Core{
 
 		int var = (int) (-100 * multiplier);
 
+		parsedString = formula.split(" ");
+
 		if(formula != null){
+
+			for(int i = 0; i < parsedString.length; i++){
+
+				System.out.println("ParsedString: " + parsedString[i] + " IsInBrace: " + isInBrace);
+
+				if(parsedString[i].equalsIgnoreCase("x")){
+
+				}else{
+
+					if(parsedString[i].equals("(")){
+
+						isInBrace = true;
+
+					}
+
+					if(parsedString[i].equals(")")){
+
+						isInBrace = false;
+
+					}
+
+				}
+
+			}
 
 		}
 
