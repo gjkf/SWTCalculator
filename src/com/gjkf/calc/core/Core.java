@@ -44,13 +44,17 @@ public class Core{
 		String[] parsedString;
 
 		boolean isInBrace = false;
+
 		boolean isOperator;
+
+		double var;
 
 		parsedString = formula.split(" ");
 
 		for(int i = 0; i < parsedString.length; i++){
 
-			isOperator = parsedString[i].equals("+") || parsedString[i].equals("-") || parsedString[i].equals("*") || parsedString[i].equals("-");
+			// I use it to know if the current parsed String is an operator
+			isOperator = parsedString[i].equals("+") || parsedString[i].equals("-") || parsedString[i].equals("*") || parsedString[i].equals("/");
 
 			if(parsedString[i].equals("(")){
 
@@ -64,7 +68,17 @@ public class Core{
 
 			}
 
-			System.out.println("I: " + i + " ParsedString: " + parsedString[i] + " IsInBrace: " + isInBrace + " IsOperator: " + isOperator);
+			if(!isOperator && (!parsedString[i].equals("(") && (!parsedString[i].equals(")") && !parsedString[i].equalsIgnoreCase("x")))){
+
+				var = Double.parseDouble(parsedString[i]);
+
+			}else{
+
+				var = Double.NaN;
+
+			}
+
+			System.out.println("I: " + i + " ParsedString: " + parsedString[i] + " IsInBrace: " + isInBrace + " IsOperator: " + isOperator + " Var: " + var);
 
 		}
 
@@ -262,8 +276,8 @@ public class Core{
 				MainView.augmentCycle();
 
 			//System.out.println("Changed: " + MainView.isChanged() + "\n");
-			//System.err.println("Cicle: " + cicle + "\n");
-			//System.err.println("MainViewCicle: " + MainView.drawCicle + "\n");
+			//System.err.println("Cycle: " + cycle + "\n");
+			//System.err.println("MainViewCycle: " + MainView.drawCycle + "\n");
 
 		}
 
