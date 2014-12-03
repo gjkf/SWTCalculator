@@ -49,6 +49,8 @@ public class Core{
 
 		double var;
 
+		int openParenthesisIndex = 0, closeParenthesisIndex = 0;
+
 		parsedString = formula.split(" ");
 
 		for(int i = 0; i < parsedString.length; i++){
@@ -58,13 +60,20 @@ public class Core{
 
 			if(parsedString[i].equals("(")){
 
+				if(openParenthesisIndex != 0)
+					openParenthesisIndex = 0;
+				closeParenthesisIndex = 0;
 				isInBrace = true;
+				openParenthesisIndex = i;
 
 			}
 
 			if(parsedString[i].equals(")")){
 
+				if(closeParenthesisIndex != 0)
+					closeParenthesisIndex = 0;
 				isInBrace = false;
+				closeParenthesisIndex = i;
 
 			}
 
@@ -78,7 +87,7 @@ public class Core{
 
 			}
 
-			System.out.println("I: " + i + " ParsedString: " + parsedString[i] + " IsInBrace: " + isInBrace + " IsOperator: " + isOperator + " Var: " + var);
+			System.out.println("I: " + i + " ParsedString: " + parsedString[i] + " IsInBrace: " + isInBrace + " OpenIndex: " + openParenthesisIndex + " CloseIndex: " + closeParenthesisIndex + " IsOperator: " + isOperator + " Var: " + var);
 
 		}
 
