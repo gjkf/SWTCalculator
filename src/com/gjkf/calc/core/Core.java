@@ -22,6 +22,12 @@ public class Core{
 
 	public static double x = 0, y = 0, z = 0, t = 0;
 
+	/**
+	 * Clears the stack, used in the RPN
+	 *
+	 * @see com.gjkf.calc.gui.KeyBoard
+	 */
+
 	public static void clearStack(){
 
 		x = 0; y = 0; z = 0; t = 0;
@@ -43,11 +49,11 @@ public class Core{
 
 		String[] parsedString;
 
-		boolean isInBrace = false;
+		boolean isInBrace = false, hasAVar = false;
 
 		boolean isOperator;
 
-		double var;
+		double var = 0., var1 = 0., var2 = 0.;
 
 		int openParenthesisIndex = 0, closeParenthesisIndex = 0;
 
@@ -79,18 +85,55 @@ public class Core{
 
 			if(!isOperator && (!parsedString[i].equals("(") && (!parsedString[i].equals(")") && !parsedString[i].equalsIgnoreCase("x")))){
 
-				var = Double.parseDouble(parsedString[i]);
-
-			}else{
-
-				var = Double.NaN;
+				if(hasAVar){
+					var2 = Double.parseDouble(parsedString[i]);
+					hasAVar = false;
+				}else{
+					var1 = Double.parseDouble(parsedString[i]);
+					hasAVar = true;
+				}
 
 			}
 
-			System.out.println("I: " + i + " ParsedString: " + parsedString[i] + " IsInBrace: " + isInBrace + " OpenIndex: " + openParenthesisIndex + " CloseIndex: " + closeParenthesisIndex + " IsOperator: " + isOperator + " Var: " + var);
+			if(hasAVar){
+
+				if(parsedString[i].equals("+")){
+
+					var = var1 + var2;
+
+				}
+
+				if(parsedString[i].equals("-")){
+
+					var = var1 - var2;
+
+				}
+
+				if(parsedString[i].equals("*")){
+
+					var = var1 * var2;
+
+				}
+
+				if(parsedString[i].equals("/")){
+
+					if(var2 != 0){
+
+						var = var1 / var2;
+
+					}else{
+
+						System.err.println("Can't divide by '0'!");
+
+					}
+
+				}
+
+			}
+
+			System.out.println("I: " + i + " ParsedString: " + parsedString[i] + " IsInBrace: " + isInBrace + " OpenIndex: " + openParenthesisIndex + " CloseIndex: " + closeParenthesisIndex + " IsOperator: " + isOperator + " Var: " + var + " Var1: " + var1 + " Var2: " + var2);
 
 		}
-
 	}
 
 	/**
