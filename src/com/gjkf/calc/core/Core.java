@@ -49,9 +49,7 @@ public class Core{
 
 		String[] parsedString;
 
-		boolean isInBrace = false, hasAVar = false;
-
-		boolean isOperator;
+		boolean isOperator = false, isInBrace = false, hasAVar = false, hasResult = false;
 
 		double var = 0., var1 = 0., var2 = 0.;
 
@@ -83,7 +81,7 @@ public class Core{
 
 			}
 
-			if(!isOperator && (!parsedString[i].equals("(") && (!parsedString[i].equals(")") && !parsedString[i].equalsIgnoreCase("x")))){
+			if(! isOperator && (! parsedString[i].equals("(") && (! parsedString[i].equals(")") && ! parsedString[i].equalsIgnoreCase("x")))){
 
 				if(hasAVar){
 					var2 = Double.parseDouble(parsedString[i]);
@@ -95,31 +93,46 @@ public class Core{
 
 			}
 
-			if(hasAVar){
+			if((var1 != 0 && var2 != 0) && i >= 1){
 
-				if(parsedString[i].equals("+")){
+//				System.err.println("i: " + i);
+//				System.err.println("i-1: " + (i-1));
 
-					var = var1 + var2;
+				if(parsedString[i-1].equals("+")){
 
-				}
+					var += var1 + var2;
 
-				if(parsedString[i].equals("-")){
-
-					var = var1 - var2;
-
-				}
-
-				if(parsedString[i].equals("*")){
-
-					var = var1 * var2;
+					var1 = 0;
+					var2 = 0;
 
 				}
 
-				if(parsedString[i].equals("/")){
+				if(parsedString[i-1].equals("-")){
+
+					var += var1 - var2;
+
+					var1 = 0;
+					var2 = 0;
+
+				}
+
+				if(parsedString[i-1].equals("*")){
+
+					var += var1 * var2;
+
+					var1 = 0;
+					var2 = 0;
+
+				}
+
+				if(parsedString[i-1].equals("/")){
 
 					if(var2 != 0){
 
-						var = var1 / var2;
+						var += var1 / var2;
+
+						var1 = 0;
+						var2 = 0;
 
 					}else{
 
@@ -134,6 +147,7 @@ public class Core{
 			System.out.println("I: " + i + " ParsedString: " + parsedString[i] + " IsInBrace: " + isInBrace + " OpenIndex: " + openParenthesisIndex + " CloseIndex: " + closeParenthesisIndex + " IsOperator: " + isOperator + " Var: " + var + " Var1: " + var1 + " Var2: " + var2);
 
 		}
+
 	}
 
 	/**
