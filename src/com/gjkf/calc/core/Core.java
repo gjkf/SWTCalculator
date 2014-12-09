@@ -18,6 +18,10 @@ package com.gjkf.calc.core;
 
 import com.gjkf.calc.gui.MainView;
 
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+import javax.script.ScriptException;
+
 public class Core{
 
 	public static double x = 0, y = 0, z = 0, t = 0;
@@ -47,104 +51,31 @@ public class Core{
 
 	public static void calculateAndDraw(String formula, double multiplier, int cycle){
 
-		String[] parsedString;
+		int var = (int) (-100 * multiplier);
+		int increases = (int) (1 / multiplier);
 
-		boolean isOperator = false, isInBrace = false, hasAVar = false, hasResult = false;
+		ScriptEngineManager mgr = new ScriptEngineManager();
+		ScriptEngine engine = mgr.getEngineByName("JavaScript");
 
-		double var = 0., var1 = 0., var2 = 0.;
+		for(int currX = var; currX < -var; currX += increases){
 
-		int openParenthesisIndex = 0, closeParenthesisIndex = 0;
+			//TODO: Fix this crashing
 
-		parsedString = formula.split(" ");
+			formula.replaceAll("\\sin", "Math.sin");
+			formula.replaceAll("\\cos", "Math.cos");
+			formula.replaceAll("\\tan", "Math.tan");
 
-		for(int i = 0; i < parsedString.length; i++){
+			formula.replaceAll("/x", Integer.toString(currX));
 
-			// I use it to know if the current parsed String is an operator
-			isOperator = parsedString[i].equals("+") || parsedString[i].equals("-") || parsedString[i].equals("*") || parsedString[i].equals("/");
+			try{
 
-			if(parsedString[i].equals("(")){
+				System.out.println(engine.eval(formula));
 
-				if(openParenthesisIndex != 0)
-					openParenthesisIndex = 0;
-				closeParenthesisIndex = 0;
-				isInBrace = true;
-				openParenthesisIndex = i;
+			}catch(ScriptException e){
 
-			}
-
-			if(parsedString[i].equals(")")){
-
-				if(closeParenthesisIndex != 0)
-					closeParenthesisIndex = 0;
-				isInBrace = false;
-				closeParenthesisIndex = i;
+				e.printStackTrace();
 
 			}
-
-			if(! isOperator && (! parsedString[i].equals("(") && (! parsedString[i].equals(")") && ! parsedString[i].equalsIgnoreCase("x")))){
-
-				if(hasAVar){
-					var2 = Double.parseDouble(parsedString[i]);
-					hasAVar = false;
-				}else{
-					var1 = Double.parseDouble(parsedString[i]);
-					hasAVar = true;
-				}
-
-			}
-
-			if((var1 != 0 && var2 != 0) && i >= 1){
-
-//				System.err.println("i: " + i);
-//				System.err.println("i-1: " + (i-1));
-
-				if(parsedString[i-1].equals("+")){
-
-					var += var1 + var2;
-
-					var1 = 0;
-					var2 = 0;
-
-				}
-
-				if(parsedString[i-1].equals("-")){
-
-					var += var1 - var2;
-
-					var1 = 0;
-					var2 = 0;
-
-				}
-
-				if(parsedString[i-1].equals("*")){
-
-					var += var1 * var2;
-
-					var1 = 0;
-					var2 = 0;
-
-				}
-
-				if(parsedString[i-1].equals("/")){
-
-					if(var2 != 0){
-
-						var += var1 / var2;
-
-						var1 = 0;
-						var2 = 0;
-
-					}else{
-
-						System.err.println("Can't divide by '0'!");
-
-					}
-
-				}
-
-			}
-
-			System.out.println("I: " + i + " ParsedString: " + parsedString[i] + " IsInBrace: " + isInBrace + " OpenIndex: " + openParenthesisIndex + " CloseIndex: " + closeParenthesisIndex + " IsOperator: " + isOperator + " Var: " + var + " Var1: " + var1 + " Var2: " + var2);
 
 		}
 
@@ -173,6 +104,8 @@ public class Core{
 
 		int var = (int) (-100 * multiplier);
 
+		int increases = (int) (1 / multiplier);
+
 		/*
 		 * Checks if the given formula is not null
 		 */
@@ -185,7 +118,7 @@ public class Core{
 
 			args = formula.split(" ");
 
-			for(currX = var; currX < -var; currX += 1){
+			for(currX = var; currX < -var; currX += increases){
 
 				for(String arg : args){
 

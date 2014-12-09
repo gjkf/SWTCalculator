@@ -46,7 +46,7 @@ public class MainView{
 	private int time = 10;
 	public static int drawCycle;
 
-	private String formula = ""; 
+	private String formula = "", multiplier = "";
 
 	@SuppressWarnings("static-access")
 	public void init(Display d){
@@ -161,9 +161,9 @@ public class MainView{
 
 					System.out.println(formula);
 
-//					Core.draw(formula, Double.parseDouble(multiplierTextField.getText()), drawCycle);
 					if(!multiplierTextField.getText().equals(""))
 						Core.calculateAndDraw(formula, Double.parseDouble(multiplierTextField.getText()), drawCycle);
+//						Core.draw(formula, Double.parseDouble(multiplierTextField.getText()), drawCycle);
 					else
 						formulaField.setText("Insert a Multiplier into the text field to the left");
 
@@ -194,9 +194,9 @@ public class MainView{
 
 					System.out.println(formula);
 
-//					Core.draw(formula, Double.parseDouble(multiplierTextField.getText()), drawCycle);
 					if(!multiplierTextField.getText().equals(""))
 						Core.calculateAndDraw(formula, Double.parseDouble(multiplierTextField.getText()), drawCycle);
+//						Core.draw(formula, Double.parseDouble(multiplierTextField.getText()), drawCycle);
 					else
 						formulaField.setText("Insert a Multiplier into the text field to the left");
 
@@ -265,12 +265,13 @@ public class MainView{
 
 				if(!formulaField.isDisposed()){
 
-					if(!formula.equals(formulaField.getText())){
+					if(!multiplier.equals(multiplierTextField.getText())){
 						shell.redraw(); 
 						changed = true;
 						resetCycle();
 					}
 
+					multiplier = multiplierTextField.getText();
 					formula = formulaField.getText();
 
 					changed = false;
