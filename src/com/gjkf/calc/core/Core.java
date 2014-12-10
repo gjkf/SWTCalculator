@@ -54,28 +54,47 @@ public class Core{
 		int var = (int) (-100 * multiplier);
 		int increases = (int) (1 / multiplier);
 
+		int currX;
+
+		String tempFormula = formula;
+
 		ScriptEngineManager mgr = new ScriptEngineManager();
 		ScriptEngine engine = mgr.getEngineByName("JavaScript");
 
-		for(int currX = var; currX < -var; currX += increases){
+		tempFormula = tempFormula.replaceAll("sin", "Math.sin");
+		System.out.println(tempFormula);
+		tempFormula = tempFormula.replaceAll("cos", "Math.cos");
+		System.out.println(tempFormula);
+		tempFormula = tempFormula.replaceAll("tan", "Math.tan");
+		System.out.println(tempFormula);
 
-			//TODO: Fix this crashing
+		if(tempFormula.contains("x")){
 
-			formula.replaceAll("\\sin", "Math.sin");
-			formula.replaceAll("\\cos", "Math.cos");
-			formula.replaceAll("\\tan", "Math.tan");
+			for(currX = var; currX < - var; currX += increases){
 
-			formula.replaceAll("/x", Integer.toString(currX));
+				int i = currX;
 
-			try{
+				if(i<0)
+					i *= -1;
 
-				System.out.println(engine.eval(formula));
+				tempFormula = tempFormula.replaceAll("x", Integer.toString(i));
 
-			}catch(ScriptException e){
+				System.out.println(tempFormula);
 
-				e.printStackTrace();
+				try{
+
+					System.out.println(engine.eval(tempFormula));
+
+				}catch(ScriptException e){
+
+					e.printStackTrace();
+
+				}
+
+				tempFormula = tempFormula.replaceFirst(Integer.toString(i),"x");
 
 			}
+
 
 		}
 
