@@ -29,6 +29,8 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
+import javax.script.ScriptException;
+
 public class MainView{
 
 	private static Display display;
@@ -145,33 +147,33 @@ public class MainView{
 		multiplierTextField.setBounds(150, 500, 70, 20);
 		multiplierTextField.setMessage("Multiplier");
 		
-		multiplierTextField.addKeyListener(new KeyListener() {
-
-			@Override
-			public void keyReleased(KeyEvent e){}
-
-			@Override
-			public void keyPressed(KeyEvent e){
-
-				/**
-				 * The <code>key code</code> corresponding to 13 is the Enter Key
-				 */
-
-				if(e.keyCode == 13){
-
-					System.out.println(formula);
-
-					if(!multiplierTextField.getText().equals(""))
-						Core.calculateAndDraw(formula, Double.parseDouble(multiplierTextField.getText()), drawCycle);
-//						Core.draw(formula, Double.parseDouble(multiplierTextField.getText()), drawCycle);
-					else
-						formulaField.setText("Insert a Multiplier into the text field to the left");
-
-				}
-
-			}
-
-		});
+//		multiplierTextField.addKeyListener(new KeyListener() {
+//
+//			@Override
+//			public void keyReleased(KeyEvent e){}
+//
+//			@Override
+//			public void keyPressed(KeyEvent e){
+//
+//				/**
+//				 * The <code>key code</code> corresponding to 13 is the Enter Key
+//				 */
+//
+//				if(e.keyCode == 13){
+//
+//					System.out.println(formula);
+//
+//					if(!multiplierTextField.getText().equals(""))
+//						Core.calculateAndDraw(formula, Double.parseDouble(multiplierTextField.getText()), drawCycle);
+////						Core.draw(formula, Double.parseDouble(multiplierTextField.getText()), drawCycle);
+//					else
+//						formulaField.setText("Insert a Multiplier into the text field to the left");
+//
+//				}
+//
+//			}
+//
+//		});
 
 		yLabel = new CLabel(shell, SWT.SHADOW_NONE);
 		yLabel.setBounds(300, 490, 30, 40);
@@ -195,7 +197,11 @@ public class MainView{
 					System.out.println(formula);
 
 					if(!multiplierTextField.getText().equals(""))
-						Core.calculateAndDraw(formula, Double.parseDouble(multiplierTextField.getText()), drawCycle);
+						try{
+							Core.calculateAndDraw(formula, Double.parseDouble(multiplierTextField.getText()), drawCycle);
+						}catch(ScriptException ex){
+							ex.printStackTrace();
+						}
 //						Core.draw(formula, Double.parseDouble(multiplierTextField.getText()), drawCycle);
 					else
 						formulaField.setText("Insert a Multiplier into the text field to the left");

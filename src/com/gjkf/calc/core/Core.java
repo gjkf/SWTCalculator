@@ -39,64 +39,75 @@ public class Core{
 	}
 
 	/**
-	 * It parses the given formula and it calculates the <code>y</code> coordinate and then it draws
-	 * The <code>x</code> coordinate is inside the code itself
+	 * It uses the <code>JavaScript</code> engine to calculate the value of the formula
 	 *
 	 * @param formula The given formula to parse
 	 * @param multiplier The multiplier, used to zoom
 	 * @param cycle The current cycle, used to change the line colour
 	 *
+	 * @throws java.lang.NullPointerException If the <code>formula</code> is null
+	 * @throws javax.script.ScriptException If the engine can't resolve the formula
+	 *
 	 * @see com.gjkf.calc.gui.MainView
 	 */
 
-	public static void calculateAndDraw(String formula, double multiplier, int cycle){
+	public static void calculateAndDraw(String formula, double multiplier, int cycle) throws ScriptException{
+
+		//TODO: fix the problem with the multiplier when it's higher than 1
 
 		int var = (int) (-100 * multiplier);
+
 		int increases = (int) (1 / multiplier);
 
-		int currX;
+		int currX, oldX;
 
-		String tempFormula = formula;
+		double yValue = 0., oldY = 0.;
+
+		String tempFormula1 = formula;
+
+		String tempFormula;
 
 		ScriptEngineManager mgr = new ScriptEngineManager();
 		ScriptEngine engine = mgr.getEngineByName("JavaScript");
 
-		tempFormula = tempFormula.replaceAll("sin", "Math.sin");
-		System.out.println(tempFormula);
-		tempFormula = tempFormula.replaceAll("cos", "Math.cos");
-		System.out.println(tempFormula);
-		tempFormula = tempFormula.replaceAll("tan", "Math.tan");
-		System.out.println(tempFormula);
+		tempFormula1 = tempFormula1.replaceAll("sin", "Math.sin");
+//		System.out.println(tempFormula1);
+		tempFormula1 = tempFormula1.replaceAll("cos", "Math.cos");
+//		System.out.println(tempFormula1);
+		tempFormula1 = tempFormula1.replaceAll("tan", "Math.tan");
+//		System.out.println(tempFormula1);
 
-		if(tempFormula.contains("x")){
+		tempFormula = tempFormula1;
+//		System.out.println(tempFormula);
 
-			for(currX = var; currX < - var; currX += increases){
+		for(currX = var; currX < - var; currX += increases){
 
-				int i = currX;
+			oldX = currX;
+			oldY = yValue;
 
-				if(i<0)
-					i *= -1;
+			tempFormula = tempFormula.replaceAll("x", Integer.toString(currX));
 
-				tempFormula = tempFormula.replaceAll("x", Integer.toString(i));
+			System.err.println(tempFormula);
 
-				System.out.println(tempFormula);
+			yValue = Double.parseDouble(engine.eval(tempFormula).toString());
 
-				try{
+			System.out.println(yValue);
 
-					System.out.println(engine.eval(tempFormula));
+			tempFormula = tempFormula1;
 
-				}catch(ScriptException e){
+			if(currX != var)
+				MainView.draw(400 + oldX * (int) multiplier, 185 - (int) oldY * (int) multiplier, 400 + currX * (int) multiplier, 185 - (int) yValue * (int) multiplier, cycle);
 
-					e.printStackTrace();
-
-				}
-
-				tempFormula = tempFormula.replaceFirst(Integer.toString(i),"x");
-
-			}
-
+			oldX = currX;
+			oldY = yValue;
 
 		}
+
+		if(!MainView.isChanged())
+			MainView.augmentCycle();
+
+		mgr = null;
+		engine = null;
 
 	}
 
