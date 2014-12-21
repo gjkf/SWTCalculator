@@ -17,6 +17,7 @@
 package com.gjkf.calc.core;
 
 import com.gjkf.calc.gui.MainView;
+import org.eclipse.swt.widgets.Shell;
 
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
@@ -51,7 +52,7 @@ public class Core{
 	 * @see com.gjkf.calc.gui.MainView
 	 */
 
-	public static void calculateAndDraw(String formula, double multiplier, int cycle) throws ScriptException{
+	public static void calculateAndDraw(Shell shell, String formula, double multiplier, int cycle) throws ScriptException{
 
 		//TODO: fix the infinite loop when doing a second run with changed multiplier
 
@@ -59,7 +60,7 @@ public class Core{
 
 		double increases = 1 / multiplier;
 
-		int currX;
+		double currX;
 
 		double yValue = 0., oldY = 0., oldX = 0.;
 
@@ -71,30 +72,31 @@ public class Core{
 		ScriptEngine engine = mgr.getEngineByName("JavaScript");
 
 		tempFormula1 = tempFormula1.replaceAll("sin", "Math.sin");
-//		System.out.println(tempFormula1);
 		tempFormula1 = tempFormula1.replaceAll("cos", "Math.cos");
-//		System.out.println(tempFormula1);
 		tempFormula1 = tempFormula1.replaceAll("tan", "Math.tan");
-//		System.out.println(tempFormula1);
+		tempFormula1 = tempFormula1.replaceAll("sqrt", "Math.sqrt");
+		tempFormula1 = tempFormula1.replaceAll("cosh", "Math.cosh");
+		tempFormula1 = tempFormula1.replaceAll("sinh", "Math.sinh");
+		tempFormula1 = tempFormula1.replaceAll("tanh", "Math.tanh");
+
 
 		tempFormula = tempFormula1;
 //		System.out.println(tempFormula);
 
-		var = 5;
+//		var = 5;
 
 		for(currX = -var; currX < var; currX += increases){
 
-			System.out.println("CurrX: " + currX);
+//			System.out.println("CurrX: " + currX);
 
-			if(currX == 0){
-				System.out.println("Test");
-				currX = 1;
+			if(currX == 0.){
+				continue;
 			}
 
 			mgr = new ScriptEngineManager();
 			engine = mgr.getEngineByName("JavaScript");
 
-			tempFormula = tempFormula.replaceAll("x", Integer.toString(currX));
+			tempFormula = tempFormula.replaceAll("x", Double.toString(currX));
 
 			System.err.println(tempFormula);
 
@@ -104,8 +106,8 @@ public class Core{
 
 			tempFormula = tempFormula1;
 
-			if(currX != var)
-				MainView.draw(400 + (int) oldX * (int) multiplier, 185 - (int) oldY * (int) multiplier, 400 + currX * (int) multiplier, 185 - (int) yValue * (int) multiplier, cycle);
+			if(currX != -var)
+				MainView.draw(shell.getBounds().width/2 + (int) oldX * (int) multiplier, shell.getBounds().height/2 - (int) oldY * (int) multiplier, shell.getBounds().width/2 + (int) currX * (int) multiplier, shell.getBounds().height/2 - (int) yValue * (int) multiplier, cycle);
 
 			oldX = currX;
 			oldY = yValue;

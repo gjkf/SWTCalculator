@@ -62,7 +62,6 @@ public class MainView{
 		shell.setText("Scientific Calculator");
 
 		initButtons();
-		initLabels();
 		initTextField();
 
 		initTimer();
@@ -118,22 +117,25 @@ public class MainView{
 		expressionLabel = new CLabel(shell, SWT.SHADOW_IN);
 		expressionLabel.setBounds(300, 300, 650, 100);
 
-		initStackLabels();
+		xStackLabel = new CLabel(shell, SWT.SHADOW_NONE);
+		xStackLabel.setBounds(25, 170, 250, 30);
+		yStackLabel = new CLabel(shell, SWT.SHADOW_NONE);
+		yStackLabel.setBounds(25, 200, 250, 30);
+		zStackLabel = new CLabel(shell, SWT.SHADOW_NONE);
+		zStackLabel.setBounds(25, 230, 250, 30);
+		tStackLabel = new CLabel(shell, SWT.SHADOW_NONE);
+		tStackLabel.setBounds(25, 260, 250, 30);
 
 	}
 
-	private void initStackLabels(){
+	private void disposeLabels(){
 
-		if(extended){
-			xStackLabel = new CLabel(shell, SWT.SHADOW_NONE);
-			xStackLabel.setBounds(25, 170, 250, 30);
-			yStackLabel = new CLabel(shell, SWT.SHADOW_NONE);
-			yStackLabel.setBounds(25, 200, 250, 30);
-			zStackLabel = new CLabel(shell, SWT.SHADOW_NONE);
-			zStackLabel.setBounds(25, 230, 250, 30);
-			tStackLabel = new CLabel(shell, SWT.SHADOW_NONE);
-			tStackLabel.setBounds(25, 260, 250, 30);
-		}
+		expressionLabel.dispose();
+
+		xStackLabel.dispose();
+		yStackLabel.dispose();
+		zStackLabel.dispose();
+		tStackLabel.dispose();
 
 	}
 
@@ -197,7 +199,7 @@ public class MainView{
 
 					if(!multiplierTextField.getText().equals(""))
 						try{
-							Core.calculateAndDraw(formula, Double.parseDouble(multiplierTextField.getText()), drawCycle);
+							Core.calculateAndDraw(shell, formula, Double.parseDouble(multiplierTextField.getText()), drawCycle);
 						}catch(ScriptException ex){
 							ex.printStackTrace();
 						}
@@ -227,16 +229,18 @@ public class MainView{
 
 				if(extended){
 
+					disposeAxis();
+
 					multiplierTextField.dispose();
 					formulaField.dispose();
 
 					yLabel.dispose();
 					multLabel.dispose();
 
-					keyBoard = new KeyBoard(25, 300, shell);
-					keyBoard.initKeyBoard();
+					initLabels();
 
-					initStackLabels();
+					keyBoard = new KeyBoard(25, 300, expressionLabel,shell);
+					keyBoard.initKeyBoard();
 
 					shell.layout();
 
@@ -244,10 +248,9 @@ public class MainView{
 
 					keyBoard.dispose();
 
-					xStackLabel.dispose();
-					yStackLabel.dispose();
-					zStackLabel.dispose();
-					tStackLabel.dispose();
+					disposeLabels();
+
+					shell.layout();
 
 					initTextField();
 
@@ -271,7 +274,7 @@ public class MainView{
 				if(!formulaField.isDisposed()){
 
 					if(!multiplier.equals(multiplierTextField.getText())){
-						shell.redraw(); 
+						shell.redraw();
 						changed = true;
 						resetCycle();
 					}
@@ -280,9 +283,6 @@ public class MainView{
 					formula = formulaField.getText();
 
 					changed = false;
-					
-					if(!extended)
-						expressionLabel.setText(formula);
 
 				}
 
@@ -293,6 +293,18 @@ public class MainView{
 					tStackLabel.setText("T: " + Core.t);
 				}
 
+				if(expressionLabel != null){
+
+					if(!expressionLabel.isDisposed()){
+
+						if(expressionLabel.getText() == null){
+							expressionLabel.setText("");
+						}
+
+					}
+
+				}
+
 			}
 		};
 
@@ -300,8 +312,10 @@ public class MainView{
 
 	}
 
-	public static CLabel getLabel(){
-		return expressionLabel;
+	private void disposeAxis(){
+
+		shell.redraw();
+
 	}
 
 	public static boolean isChanged(){

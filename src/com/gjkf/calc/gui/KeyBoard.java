@@ -16,14 +16,13 @@
 
 package com.gjkf.calc.gui;
 
+import com.gjkf.calc.core.Core;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Shell;
-
-import com.gjkf.calc.core.Core;
 
 public class KeyBoard{
 
@@ -40,16 +39,21 @@ public class KeyBoard{
 	private Button[] thirdRowNumberButtons = new Button[7];
 	private Button[] fourthRowButtons = new Button[6];
 
-	public KeyBoard(int x, int y, Shell shell){
+	public KeyBoard(int x, int y, CLabel cLabel, Shell shell){
 
 		this.x = x;
 		this.y = y;
 		this.shell = shell;
-		this.label = MainView.getLabel();
+		this.label = cLabel;
 
 	}
 
 	public void initKeyBoard(){
+
+		if(label == null){
+			label = new CLabel(shell, SWT.SHADOW_IN);
+			label.setBounds(300, 300, 650, 100);
+		}
 
 		for(int i = 0; i < firstRowNumberButtons.length; i++){
 			firstRowNumberButtons[i] = new Button(shell, SWT.PUSH);
@@ -146,339 +150,342 @@ public class KeyBoard{
 
 	public void dispose(){
 
-		for(int i = 0; i < firstRowNumberButtons.length; i++){
-			firstRowNumberButtons[i].dispose();
+		for(Button firstRowNumberButton : firstRowNumberButtons){
+			firstRowNumberButton.dispose();
 		}
 
-		for(int i = 0; i < secondRowNumberButtons.length; i++){
-			secondRowNumberButtons[i].dispose();
+		for(Button secondRowNumberButton : secondRowNumberButtons){
+			secondRowNumberButton.dispose();
 		}
 
-		for(int i = 0; i < thirdRowNumberButtons.length; i++){
-			thirdRowNumberButtons[i].dispose();
+		for(Button thirdRowNumberButton : thirdRowNumberButtons){
+			thirdRowNumberButton.dispose();
 		}
 
-		for(int i = 0; i < fourthRowButtons.length; i++){
-			fourthRowButtons[i].dispose();
+		for(Button fourthRowButton : fourthRowButtons){
+			fourthRowButton.dispose();
 		}
 
 	}
 
 	private void setListeners(final String ident){
 
-		if(ident.equals("1")){
-			thirdRowNumberButtons[0].addMouseListener(new MouseAdapter(){
+		if(label != null){
 
-				@Override
-				public void mouseDown(MouseEvent e){
-					System.out.println("1");
-					label.setText(label.getText() + "1");
-				}
+			if(ident.equals("1")){
+				thirdRowNumberButtons[0].addMouseListener(new MouseAdapter(){
 
-			});
-		}else if(ident.equals("2")){
-			thirdRowNumberButtons[1].addMouseListener(new MouseAdapter(){
-
-				@Override
-				public void mouseDown(MouseEvent e){
-					System.out.println("2");
-					label.setText(label.getText() + "2");
-				}
-
-			});
-		}else if(ident.equals("3")){
-			thirdRowNumberButtons[2].addMouseListener(new MouseAdapter(){
-
-				@Override
-				public void mouseDown(MouseEvent e){
-					System.out.println("3");
-					label.setText(label.getText() + "3");
-				}
-
-			});
-		}else if(ident.equals("4")){
-			secondRowNumberButtons[0].addMouseListener(new MouseAdapter(){
-
-				@Override
-				public void mouseDown(MouseEvent e){
-					System.out.println("4");
-					label.setText(label.getText() + "4");
-				}
-
-			});
-		}else if(ident.equals("5")){
-			secondRowNumberButtons[1].addMouseListener(new MouseAdapter(){
-
-				@Override
-				public void mouseDown(MouseEvent e){
-					System.out.println("5");
-					label.setText(label.getText() + "5");
-				}
-
-			});
-		}else if(ident.equals("6")){
-			secondRowNumberButtons[2].addMouseListener(new MouseAdapter(){
-
-				@Override
-				public void mouseDown(MouseEvent e){
-					System.out.println("6");
-					label.setText(label.getText() + "6");
-				}
-
-			});
-		}else if(ident.equals("7")){
-			firstRowNumberButtons[0].addMouseListener(new MouseAdapter(){
-
-				@Override
-				public void mouseDown(MouseEvent e){
-					System.out.println("7");
-					label.setText(label.getText() + "7");
-				}
-
-			});
-		}else if(ident.equals("8")){
-			firstRowNumberButtons[1].addMouseListener(new MouseAdapter(){
-
-				@Override
-				public void mouseDown(MouseEvent e){
-					System.out.println("8");
-					label.setText(label.getText() + "8");
-				}
-
-			});
-		}else if(ident.equals("9")){
-			firstRowNumberButtons[2].addMouseListener(new MouseAdapter(){
-
-				@Override
-				public void mouseDown(MouseEvent e){
-					System.out.println("9");
-					label.setText(label.getText() + "9");
-				}
-
-			});
-		}else if(ident.equals("0")){
-			fourthRowButtons[0].addMouseListener(new MouseAdapter(){
-
-				@Override
-				public void mouseDown(MouseEvent e){
-					System.out.println("0");
-					label.setText(label.getText() + "0");
-				}
-
-			});
-		}else if(ident.equals(".")){
-			fourthRowButtons[1].addMouseListener(new MouseAdapter(){
-
-				@Override
-				public void mouseDown(MouseEvent e){
-					System.out.println(".");
-					label.setText(label.getText() + ".");
-				}
-
-			});
-		}else if(ident.equals("x")){
-			firstRowNumberButtons[3].addMouseListener(new MouseAdapter(){
-
-				@Override
-				public void mouseDown(MouseEvent e){
-					System.out.println("x");
-					String result = null;
-
-					Core.x = Double.parseDouble(label.getText());
-
-					Core.x = Core.x * Core.y;
-
-					pullDown();
-
-					result = Double.toString(Core.x);
-
-					label.setText(result);
-
-					calculated = true;
-
-				}
-
-			});
-		}else if(ident.equals(":")){
-			secondRowNumberButtons[3].addMouseListener(new MouseAdapter(){
-
-				@Override
-				public void mouseDown(MouseEvent e){
-					System.out.println(":");
-
-					String result = null;
-
-					Core.x = Double.parseDouble(label.getText());
-
-					if(Core.x != 0)
-						Core.x = Core.x / Core.y;
-
-					pullDown();
-
-					result = Double.toString(Core.x);
-
-					label.setText(result);
-
-					calculated = true;
-
-				}
-
-			});
-		}else if(ident.equals("+")){
-			thirdRowNumberButtons[3].addMouseListener(new MouseAdapter(){
-
-				@Override
-				public void mouseDown(MouseEvent e){
-					System.out.println("+");
-
-					String result = null;
-
-					Core.x = Double.parseDouble(label.getText());
-
-					Core.x = Core.x + Core.y;
-
-					pullDown();
-
-					result = Double.toString(Core.x);
-
-					label.setText(result);
-
-					calculated = true;
-
-				}
-
-			});
-		}else if(ident.equals("-")){
-			fourthRowButtons[3].addMouseListener(new MouseAdapter(){
-
-				@Override
-				public void mouseDown(MouseEvent e){
-					System.out.println("-");
-					//label.setText(label.getText()
-
-					String result = null;
-
-					Core.x = Double.parseDouble(label.getText());
-
-					Core.x = Core.x - Core.y;
-
-					pullDown();
-
-					result = Double.toString(Core.x);
-
-					label.setText(result);
-
-					calculated = true;
-
-				}
-
-			});
-		}else if(ident.equals("del")){
-			thirdRowNumberButtons[4].addMouseListener(new MouseAdapter(){
-
-				@Override
-				public void mouseDown(MouseEvent e){
-					System.out.println("Del");
-					if(label.getText() != null || !label.getText().equals("")){
-						if(label.getText().endsWith(" "))
-							label.setText(label.getText().substring(0, label.getText().length()-2));
-						else
-							label.setText(label.getText().substring(0, label.getText().length()-1));
+					@Override
+					public void mouseDown(MouseEvent e){
+						System.out.println("1");
+						label.setText(label.getText() + "1");
 					}
 
-				}
+				});
+			}else if(ident.equals("2")){
+				thirdRowNumberButtons[1].addMouseListener(new MouseAdapter(){
 
-			});
-		}else if(ident.equals("ac")){
-			fourthRowButtons[4].addMouseListener(new MouseAdapter(){
+					@Override
+					public void mouseDown(MouseEvent e){
+						System.out.println("2");
+						label.setText(label.getText() + "2");
+					}
 
-				@Override
-				public void mouseDown(MouseEvent e){
-					System.out.println("AC");
-					label.setText("");
-					System.out.println(Core.x + ":X " + Core.y + ":Y " + Core.z + ":Z " + Core.t + ":T");
-					Core.clearStack();
-					System.out.println(Core.x + ":X " + Core.y + ":Y " + Core.z + ":Z " + Core.t + ":T");
-				}
+				});
+			}else if(ident.equals("3")){
+				thirdRowNumberButtons[2].addMouseListener(new MouseAdapter(){
 
-			});
-		}else if(ident.equals("ent")){
-			firstRowNumberButtons[4].addMouseListener(new MouseAdapter(){
+					@Override
+					public void mouseDown(MouseEvent e){
+						System.out.println("3");
+						label.setText(label.getText() + "3");
+					}
 
-				@Override
-				public void mouseDown(MouseEvent e){
-					System.out.println("Ent");
+				});
+			}else if(ident.equals("4")){
+				secondRowNumberButtons[0].addMouseListener(new MouseAdapter(){
 
-					Core.x = Double.parseDouble(label.getText());
+					@Override
+					public void mouseDown(MouseEvent e){
+						System.out.println("4");
+						label.setText(label.getText() + "4");
+					}
 
-					pushUp();
+				});
+			}else if(ident.equals("5")){
+				secondRowNumberButtons[1].addMouseListener(new MouseAdapter(){
 
-					System.err.println("TEXT: " + label.getText());
+					@Override
+					public void mouseDown(MouseEvent e){
+						System.out.println("5");
+						label.setText(label.getText() + "5");
+					}
 
-					label.setText("");
+				});
+			}else if(ident.equals("6")){
+				secondRowNumberButtons[2].addMouseListener(new MouseAdapter(){
 
-				}
+					@Override
+					public void mouseDown(MouseEvent e){
+						System.out.println("6");
+						label.setText(label.getText() + "6");
+					}
 
-			});
-		}else if(ident.contains("sin")){
-			thirdRowNumberButtons[5].addMouseListener(new MouseAdapter(){
+				});
+			}else if(ident.equals("7")){
+				firstRowNumberButtons[0].addMouseListener(new MouseAdapter(){
 
-				@Override
-				public void mouseDown(MouseEvent e){
-					System.out.println("sin");
+					@Override
+					public void mouseDown(MouseEvent e){
+						System.out.println("7");
+						label.setText(label.getText() + "7");
+					}
 
-					Core.x = Math.sin(Core.x);
+				});
+			}else if(ident.equals("8")){
+				firstRowNumberButtons[1].addMouseListener(new MouseAdapter(){
 
-					pullDown();
-					pushUp();
-					
-					System.out.println("X: " + Core.x + " Sin(x): " + Math.sin(Core.x));
+					@Override
+					public void mouseDown(MouseEvent e){
+						System.out.println("8");
+						label.setText(label.getText() + "8");
+					}
 
-					label.setText(Double.toString(Core.x));
+				});
+			}else if(ident.equals("9")){
+				firstRowNumberButtons[2].addMouseListener(new MouseAdapter(){
 
-				}
+					@Override
+					public void mouseDown(MouseEvent e){
+						System.out.println("9");
+						label.setText(label.getText() + "9");
+					}
 
-			});
-		}else if(ident.equals("cos")){
-			fourthRowButtons[5].addMouseListener(new MouseAdapter(){
+				});
+			}else if(ident.equals("0")){
+				fourthRowButtons[0].addMouseListener(new MouseAdapter(){
 
-				@Override
-				public void mouseDown(MouseEvent e){
-					System.out.println("cos");
+					@Override
+					public void mouseDown(MouseEvent e){
+						System.out.println("0");
+						label.setText(label.getText() + "0");
+					}
 
-					System.out.println("X: " + Core.x + " Cos(x): " + Math.cos(Core.x));
+				});
+			}else if(ident.equals(".")){
+				fourthRowButtons[1].addMouseListener(new MouseAdapter(){
 
-					Core.x = Math.cos(Core.x);
-					
-					pullDown();
-					pushUp();
+					@Override
+					public void mouseDown(MouseEvent e){
+						System.out.println(".");
+						label.setText(label.getText() + ".");
+					}
 
-					label.setText(Double.toString(Core.x));
+				});
+			}else if(ident.equals("x")){
+				firstRowNumberButtons[3].addMouseListener(new MouseAdapter(){
 
-				}
+					@Override
+					public void mouseDown(MouseEvent e){
+						System.out.println("x");
+						String result = null;
 
-			});
-		}else if(ident.equals("tan")){
-			thirdRowNumberButtons[6].addMouseListener(new MouseAdapter(){
+						Core.x = Double.parseDouble(label.getText());
 
-				@Override
-				public void mouseDown(MouseEvent e){
-					System.out.println("tan");
+						Core.x = Core.x * Core.y;
 
-					System.out.println("X: " + Core.x + " Tan(x): " + Math.tan(Core.x));
+						pullDown();
 
-					Core.x = Math.tan(Core.x);
-					
-					pullDown();
-					pushUp();
+						result = Double.toString(Core.x);
 
-					label.setText(Double.toString(Core.x));
+						label.setText(result);
 
-				}
+						calculated = true;
 
-			});
+					}
+
+				});
+			}else if(ident.equals(":")){
+				secondRowNumberButtons[3].addMouseListener(new MouseAdapter(){
+
+					@Override
+					public void mouseDown(MouseEvent e){
+						System.out.println(":");
+
+						String result = null;
+
+						Core.x = Double.parseDouble(label.getText());
+
+						if(Core.x != 0)
+							Core.x = Core.x / Core.y;
+
+						pullDown();
+
+						result = Double.toString(Core.x);
+
+						label.setText(result);
+
+						calculated = true;
+
+					}
+
+				});
+			}else if(ident.equals("+")){
+				thirdRowNumberButtons[3].addMouseListener(new MouseAdapter(){
+
+					@Override
+					public void mouseDown(MouseEvent e){
+						System.out.println("+");
+
+						String result = null;
+
+						Core.x = Double.parseDouble(label.getText());
+
+						Core.x = Core.x + Core.y;
+
+						pullDown();
+
+						result = Double.toString(Core.x);
+
+						label.setText(result);
+
+						calculated = true;
+
+					}
+
+				});
+			}else if(ident.equals("-")){
+				fourthRowButtons[3].addMouseListener(new MouseAdapter(){
+
+					@Override
+					public void mouseDown(MouseEvent e){
+						System.out.println("-");
+						//label.setText(label.getText()
+
+						String result = null;
+
+						Core.x = Double.parseDouble(label.getText());
+
+						Core.x = Core.x - Core.y;
+
+						pullDown();
+
+						result = Double.toString(Core.x);
+
+						label.setText(result);
+
+						calculated = true;
+
+					}
+
+				});
+			}else if(ident.equals("del")){
+				thirdRowNumberButtons[4].addMouseListener(new MouseAdapter(){
+
+					@Override
+					public void mouseDown(MouseEvent e){
+						System.out.println("Del");
+						if(label.getText() != null || ! label.getText().equals("")){
+							if(label.getText().endsWith(" "))
+								label.setText(label.getText().substring(0, label.getText().length() - 2));
+							else
+								label.setText(label.getText().substring(0, label.getText().length() - 1));
+						}
+
+					}
+
+				});
+			}else if(ident.equals("ac")){
+				fourthRowButtons[4].addMouseListener(new MouseAdapter(){
+
+					@Override
+					public void mouseDown(MouseEvent e){
+						System.out.println("AC");
+						label.setText("");
+						System.out.println(Core.x + ":X " + Core.y + ":Y " + Core.z + ":Z " + Core.t + ":T");
+						Core.clearStack();
+						System.out.println(Core.x + ":X " + Core.y + ":Y " + Core.z + ":Z " + Core.t + ":T");
+					}
+
+				});
+			}else if(ident.equals("ent")){
+				firstRowNumberButtons[4].addMouseListener(new MouseAdapter(){
+
+					@Override
+					public void mouseDown(MouseEvent e){
+						System.out.println("Ent");
+
+						Core.x = Double.parseDouble(label.getText());
+
+						pushUp();
+
+						System.err.println("TEXT: " + label.getText());
+
+						label.setText("");
+
+					}
+
+				});
+			}else if(ident.contains("sin")){
+				thirdRowNumberButtons[5].addMouseListener(new MouseAdapter(){
+
+					@Override
+					public void mouseDown(MouseEvent e){
+						System.out.println("sin");
+
+						Core.x = Math.sin(Core.x);
+
+						pullDown();
+						pushUp();
+
+						System.out.println("X: " + Core.x + " Sin(x): " + Math.sin(Core.x));
+
+						label.setText(Double.toString(Core.x));
+
+					}
+
+				});
+			}else if(ident.equals("cos")){
+				fourthRowButtons[5].addMouseListener(new MouseAdapter(){
+
+					@Override
+					public void mouseDown(MouseEvent e){
+						System.out.println("cos");
+
+						System.out.println("X: " + Core.x + " Cos(x): " + Math.cos(Core.x));
+
+						Core.x = Math.cos(Core.x);
+
+						pullDown();
+						pushUp();
+
+						label.setText(Double.toString(Core.x));
+
+					}
+
+				});
+			}else if(ident.equals("tan")){
+				thirdRowNumberButtons[6].addMouseListener(new MouseAdapter(){
+
+					@Override
+					public void mouseDown(MouseEvent e){
+						System.out.println("tan");
+
+						System.out.println("X: " + Core.x + " Tan(x): " + Math.tan(Core.x));
+
+						Core.x = Math.tan(Core.x);
+
+						pullDown();
+						pushUp();
+
+						label.setText(Double.toString(Core.x));
+
+					}
+
+				});
+			}
+
 		}
-
 	}
 
 	private void pullDown(){
