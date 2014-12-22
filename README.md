@@ -2,11 +2,11 @@
 
 This is a Java application I made. It reproduces a RPN calculator with the addition of another calculator that can graph functions for you.
 
-For further information visit the wiki: https://github.com/gjkf/SWTCalculator/wiki/
+For further information visit the [wiki] (https://github.com/gjkf/SWTCalculator/wiki/)
 
 [Requirements] (#requirements)
 
-[Downloads] (#download)
+[Downloads] (#downloads)
 
 [Launching] (#launching)
 
