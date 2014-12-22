@@ -19,15 +19,9 @@ package com.gjkf.calc.gui;
 import com.gjkf.calc.core.Core;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CLabel;
-import org.eclipse.swt.events.KeyEvent;
-import org.eclipse.swt.events.KeyListener;
-import org.eclipse.swt.events.MouseAdapter;
-import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.*;
 import org.eclipse.swt.graphics.GC;
-import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.widgets.Text;
+import org.eclipse.swt.widgets.*;
 
 import javax.script.ScriptException;
 
@@ -37,10 +31,11 @@ public class MainView{
 	private static Shell shell;
 
 	private KeyBoard keyBoard;
-
 	private static CLabel expressionLabel, xStackLabel, yStackLabel, zStackLabel, tStackLabel, yLabel, multLabel;
 
 	private Text formulaField, multiplierTextField;
+
+	private static Canvas canvas;
 
 	private static boolean extended = false, changed = false;
 
@@ -60,6 +55,8 @@ public class MainView{
 		shell.setSize(1000, 600);
 		shell.setLayout(null);
 		shell.setText("Scientific Calculator");
+
+		drawAxis();
 
 		initButtons();
 		initTextField();
@@ -85,7 +82,7 @@ public class MainView{
 
 	public static void draw(int x1, int y1, int x2, int y2, int cycle){
 
-		GC gc = new GC(shell);
+		GC gc = new GC(canvas);
 		
 		System.out.println("Draw:cycle: " + cycle);
 		
@@ -199,7 +196,7 @@ public class MainView{
 
 					if(!multiplierTextField.getText().equals(""))
 						try{
-							Core.calculateAndDraw(shell, formula, Double.parseDouble(multiplierTextField.getText()), drawCycle);
+							Core.calculateAndDraw(canvas, formula, Double.parseDouble(multiplierTextField.getText()), drawCycle);
 						}catch(ScriptException ex){
 							ex.printStackTrace();
 						}
@@ -229,17 +226,17 @@ public class MainView{
 
 				if(extended){
 
-					disposeAxis();
-
 					multiplierTextField.dispose();
 					formulaField.dispose();
 
 					yLabel.dispose();
 					multLabel.dispose();
 
+					canvas.dispose();
+
 					initLabels();
 
-					keyBoard = new KeyBoard(25, 300, expressionLabel,shell);
+					keyBoard = new KeyBoard(25, 300, expressionLabel, shell);
 					keyBoard.initKeyBoard();
 
 					shell.layout();
@@ -253,6 +250,8 @@ public class MainView{
 					shell.layout();
 
 					initTextField();
+
+					drawAxis();
 
 				}
 			}
@@ -312,15 +311,26 @@ public class MainView{
 
 	}
 
-	private void disposeAxis(){
+	private void drawAxis(){
 
-		shell.redraw();
+		canvas = new Canvas(shell, SWT.NO_REDRAW_RESIZE);
+
+		canvas.setBounds(0, 40, shell.getBounds().width, shell.getBounds().height/2 + 150);
+		//canvas.setBackground(display.getSystemColor(SWT.COLOR_BLACK));
+		canvas.layout();
+
+		canvas.addPaintListener(new PaintListener() {
+			public void paintControl(PaintEvent e) {
+
+				e.gc.drawLine(canvas.getBounds().width/2, 0, canvas.getBounds().width/2, canvas.getBounds().height);
+				e.gc.drawLine(0, canvas.getBounds().height/2, canvas.getBounds().width, canvas.getBounds().height/2);
+
+			}
+		});
 
 	}
 
-	public static boolean isChanged(){
-		return changed;
-	}
+	public static boolean isChanged(){ return changed;}
 
 	public static void augmentCycle(){
 		drawCycle++;

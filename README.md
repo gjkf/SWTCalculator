@@ -6,9 +6,13 @@ For further information visit the wiki: https://github.com/gjkf/SWTCalculator/wi
 
 [Requirements] (#requirements)
 
+[Downloads] (#download)
+
+[Launching] (#launching)
+
 [Licensing] (#licensing)
 
-##Requirements
+###Requirements
 
 This application requires Java to run. Make sure you have it installed before launching this application.
 
@@ -30,6 +34,24 @@ The Java JDK is used to compile this project.
     * Scroll down to a variable named `Path`, and double-click on it.
     * Append `;%JAVA_HOME%\bin` EXACTLY AS SHOWN and click `Ok`.  Make sure the location is correct; double-check just to make sure.
 3. Open up your command line and run `javac`.  If it spews out a bunch of possible options and the usage, then you're good to go.
+
+###Downloads
+
+* Linux:
+  * [32bit] (https://www.dropbox.com/sh/gq3zgscxsjmor3i/AAAUynfkvI7AzS_-ba4wYS7ia?dl=0)
+  * [64bit] (https://www.dropbox.com/sh/1cqntxgz9ogjxmx/AAD2ePQzeABg6lPDo1LBqfrSa?dl=0)
+* Windows
+  [32bit] (https://www.dropbox.com/sh/ubfn89q4jgimsmi/AADEp9V-Ma0wYleQYb7o0yYea?dl=0)
+  [64bit] (https://www.dropbox.com/sh/1c26vdcqmt18l6o/AAAsmtkA0kj2OC6gWPAB3QGBa?dl=0)
+* MacOSX
+  [32bit] (https://www.dropbox.com/sh/mh30u9vgkztjkes/AAD4WH1Npc2VW5B7krC6AR5Za?dl=0)
+  [64bit] (https://www.dropbox.com/sh/50tj7954xj3fy20/AACzvEQHFletpaSJorq8SWCTa?dl=0)
+
+###Launching
+
+Make sure you have the `SWTCalculator.jar` in the same directory as the `swt.jar`, otherwise it won't work.
+
+If you are on Mac, you need to launch this application from the command line. You need to type in this `java -jar -XstartOnFirstThread SWTCalculator.jar`.
 
 ### Licensing
 

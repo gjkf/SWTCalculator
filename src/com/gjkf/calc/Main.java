@@ -16,9 +16,8 @@
 
 package com.gjkf.calc;
 
-import org.eclipse.swt.widgets.Display;
-
 import com.gjkf.calc.gui.MainView;
+import org.eclipse.swt.widgets.Display;
 
 public class Main{
 
@@ -27,7 +26,7 @@ public class Main{
 		Display d = new Display();
 		MainView view = new MainView();
 		view.init(d);
-		
+
 	}
 
 }

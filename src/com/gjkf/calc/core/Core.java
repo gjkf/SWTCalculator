@@ -17,7 +17,7 @@
 package com.gjkf.calc.core;
 
 import com.gjkf.calc.gui.MainView;
-import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Canvas;
 
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
@@ -52,7 +52,7 @@ public class Core{
 	 * @see com.gjkf.calc.gui.MainView
 	 */
 
-	public static void calculateAndDraw(Shell shell, String formula, double multiplier, int cycle) throws ScriptException{
+	public static void calculateAndDraw(Canvas canvas, String formula, double multiplier, int cycle) throws ScriptException{
 
 		//TODO: fix the infinite loop when doing a second run with changed multiplier
 
@@ -107,7 +107,7 @@ public class Core{
 			tempFormula = tempFormula1;
 
 			if(currX != -var)
-				MainView.draw(shell.getBounds().width/2 + (int) oldX * (int) multiplier, shell.getBounds().height/2 - (int) oldY * (int) multiplier, shell.getBounds().width/2 + (int) currX * (int) multiplier, shell.getBounds().height/2 - (int) yValue * (int) multiplier, cycle);
+				MainView.draw(canvas.getBounds().width/2 + (int) oldX * (int) multiplier, canvas.getBounds().height/2 - (int) oldY * (int) multiplier, canvas.getBounds().width/2 + (int) currX * (int) multiplier, canvas.getBounds().height/2 - (int) yValue * (int) multiplier, cycle);
 
 			oldX = currX;
 			oldY = yValue;
