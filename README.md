@@ -41,11 +41,11 @@ The Java JDK is used to compile this project.
   * [32bit] (https://www.dropbox.com/sh/gq3zgscxsjmor3i/AAAUynfkvI7AzS_-ba4wYS7ia?dl=0)
   * [64bit] (https://www.dropbox.com/sh/1cqntxgz9ogjxmx/AAD2ePQzeABg6lPDo1LBqfrSa?dl=0)
 * Windows
-  [32bit] (https://www.dropbox.com/sh/ubfn89q4jgimsmi/AADEp9V-Ma0wYleQYb7o0yYea?dl=0)
-  [64bit] (https://www.dropbox.com/sh/1c26vdcqmt18l6o/AAAsmtkA0kj2OC6gWPAB3QGBa?dl=0)
+  * [32bit] (https://www.dropbox.com/sh/ubfn89q4jgimsmi/AADEp9V-Ma0wYleQYb7o0yYea?dl=0)
+  * [64bit] (https://www.dropbox.com/sh/1c26vdcqmt18l6o/AAAsmtkA0kj2OC6gWPAB3QGBa?dl=0)
 * MacOSX
-  [32bit] (https://www.dropbox.com/sh/mh30u9vgkztjkes/AAD4WH1Npc2VW5B7krC6AR5Za?dl=0)
-  [64bit] (https://www.dropbox.com/sh/50tj7954xj3fy20/AACzvEQHFletpaSJorq8SWCTa?dl=0)
+  * [32bit] (https://www.dropbox.com/sh/mh30u9vgkztjkes/AAD4WH1Npc2VW5B7krC6AR5Za?dl=0)
+  * [64bit] (https://www.dropbox.com/sh/50tj7954xj3fy20/AACzvEQHFletpaSJorq8SWCTa?dl=0)
 
 ###Launching
 
