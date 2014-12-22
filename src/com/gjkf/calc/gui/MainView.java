@@ -30,14 +30,15 @@ public class MainView{
 	private static Display display;
 	private static Shell shell;
 
-	private KeyBoard keyBoard;
+	private static Canvas canvas;
+
 	private static CLabel expressionLabel, xStackLabel, yStackLabel, zStackLabel, tStackLabel, yLabel, multLabel;
 
 	private Text formulaField, multiplierTextField;
 
-	private static Canvas canvas;
-
 	private static boolean extended = false, changed = false;
+
+	private KeyBoard keyBoard;
 
 	// Time in ms
 	private int time = 10;
@@ -55,6 +56,8 @@ public class MainView{
 		shell.setSize(1000, 600);
 		shell.setLayout(null);
 		shell.setText("Scientific Calculator");
+
+		initMenu();
 
 		drawAxis();
 
@@ -106,6 +109,34 @@ public class MainView{
 		gc.drawLine(x1, y1, x2, y2);
 
 		gc.dispose();
+
+	}
+
+	private void initMenu(){
+
+//		Main menu
+
+		Menu menu = new Menu(shell, SWT.BAR);
+		shell.setMenuBar(menu);
+
+		MenuItem settings = new MenuItem(menu, SWT.CASCADE);
+		settings.setText("Settings");
+
+//		Sub-Menu
+
+		Menu menu_1 = new Menu(settings);
+		settings.setMenu(menu_1);
+
+		MenuItem colors = new MenuItem(menu_1, SWT.NONE);
+		colors.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				ColorPicker colorPicker = new ColorPicker();
+				colorPicker.run(display);
+			}
+		});
+		colors.setText("Colors");
+
 
 	}
 
