@@ -51,7 +51,11 @@ The Java JDK is used to compile this project.
 
 Make sure you have the `SWTCalculator.jar` in the same directory as the `swt.jar`, otherwise it won't work.
 
-If you are on Mac, you need to launch this application from the command line. You need to type in this `java -jar -XstartOnFirstThread SWTCalculator.jar`.
+Unfortunately this needs to be launched via command line, sorry!
+
+All you have to do is navigate to the extracted directory (you'll download a .zip file so you'll un-zip it and you'll get a folder) using `cd`. Once you are there just run `java -jar SWTCalculator.jar`.
+
+If you are on Mac, you need to type in this `java -jar -XstartOnFirstThread SWTCalculator.jar`.
 
 ### Licensing
 
