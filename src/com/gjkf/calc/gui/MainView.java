@@ -20,6 +20,7 @@ import com.gjkf.calc.core.Core;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.events.*;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.widgets.*;
 
@@ -61,6 +62,8 @@ public class MainView{
 
 		drawAxis();
 
+		ColorPicker.initColor(shell);
+
 		initButtons();
 		initTextField();
 
@@ -88,23 +91,32 @@ public class MainView{
 		GC gc = new GC(canvas);
 		
 		System.out.println("Draw:cycle: " + cycle);
-		
-		if(cycle <= 0)
-			gc.setForeground(display.getSystemColor(SWT.COLOR_BLACK));
-		else if(cycle == 1)
-			gc.setForeground(display.getSystemColor(SWT.COLOR_RED));
-		else if(cycle == 2)
-			gc.setForeground(display.getSystemColor(SWT.COLOR_BLUE));
-		else if(cycle == 3)
-			gc.setForeground(display.getSystemColor(SWT.COLOR_GREEN));
-		else if(cycle == 4)
-			gc.setForeground(display.getSystemColor(SWT.COLOR_CYAN));
-		else if(cycle == 5)
-			gc.setForeground(display.getSystemColor(SWT.COLOR_MAGENTA));
-		else if(cycle == 6)
-			gc.setForeground(display.getSystemColor(SWT.COLOR_YELLOW));
-		else if(cycle == 7)
-			gc.setForeground(display.getSystemColor(SWT.COLOR_WHITE));
+
+//		if(cycle <= 0)
+//			gc.setForeground(display.getSystemColor(SWT.COLOR_BLACK));
+//		else if(cycle == 1)
+//			gc.setForeground(display.getSystemColor(SWT.COLOR_RED));
+//		else if(cycle == 2)
+//			gc.setForeground(display.getSystemColor(SWT.COLOR_BLUE));
+//		else if(cycle == 3)
+//			gc.setForeground(display.getSystemColor(SWT.COLOR_GREEN));
+//		else if(cycle == 4)
+//			gc.setForeground(display.getSystemColor(SWT.COLOR_CYAN));
+//		else if(cycle == 5)
+//			gc.setForeground(display.getSystemColor(SWT.COLOR_MAGENTA));
+//		else if(cycle == 6)
+//			gc.setForeground(display.getSystemColor(SWT.COLOR_YELLOW));
+//		else if(cycle == 7)
+//			gc.setForeground(display.getSystemColor(SWT.COLOR_WHITE));
+
+		if(cycle > 7)
+			cycle = 0;
+
+		Color[] cArray = ColorPicker.getColorArray();
+
+		System.out.println(cArray[cycle]);
+
+		gc.setForeground(cArray[cycle]);
 
 		gc.drawLine(x1, y1, x2, y2);
 
@@ -227,6 +239,7 @@ public class MainView{
 
 					if(!multiplierTextField.getText().equals(""))
 						try{
+//							ColorPicker.loadColorArray();
 							Core.calculateAndDraw(canvas, formula, Double.parseDouble(multiplierTextField.getText()), drawCycle);
 						}catch(ScriptException ex){
 							ex.printStackTrace();

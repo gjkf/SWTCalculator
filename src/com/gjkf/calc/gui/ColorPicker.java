@@ -1,16 +1,3 @@
-package com.gjkf.calc.gui;
-
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.CLabel;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.graphics.RGB;
-import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.ColorDialog;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Shell;
-
 /**
  * Copyright (c) 22/12/14 Davide Cossu.
  * <p/>
@@ -27,13 +14,32 @@ import org.eclipse.swt.widgets.Shell;
  * this program; if not, see <http://www.gnu.org/licenses>.
  */
 
+package com.gjkf.calc.gui;
+
+import com.gjkf.calc.core.ColorHelper;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.CLabel;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.RGB;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.ColorDialog;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Shell;
+
 public class ColorPicker{
 
-    private Color color;
-
     private static Shell shell;
-
     private Display display;
+
+    private static CLabel[] colorLabels;
+
+    private static CLabel[] typeLabels;
+
+    private static Button[] chooseColors;
+
+    private static Color[] colorArray;
 
     public void run(Display display){
 
@@ -43,60 +49,68 @@ public class ColorPicker{
         shell.setText("Color Chooser");
         shell.setSize(500, 500);
 
-        createContents(shell);
+//        initColor();
+        initLabels();
+        initButtons();
+
+        loadColorArray();
 
         center();
         open();
 
-        // Dispose the color we created for the Label
-        if (color != null) {
-            color.dispose();
+    }
+
+    private void initLabels(){
+
+        for(int i = 0; i < colorLabels.length; i++){
+
+            colorLabels[i] = new CLabel(shell, SWT.NONE);
+            colorLabels[i].setText("                              ");
+            colorLabels[i].setBounds(shell.getBounds().width / 2 - 100, 30 + i * 50, 200, 30);
+
+            if(colorArray[i] != null){
+                colorLabels[i].setBackground(colorArray[i]);
+            }else{
+                initColor(shell);
+            }
+
+            typeLabels[i] = new CLabel(shell, SWT.NONE);
+            typeLabels[i].setBounds(colorLabels[i].getBounds().x - 100, colorLabels[i].getBounds().y, colorLabels[i].getBounds().width, colorLabels[i].getBounds().height);
+
+            typeLabels[i].setText("Cycle " + i);
+
         }
 
     }
 
-    /**
-     * Creates the window contents
-     *
-     * @param shell the parent shell
-     */
+    private void initButtons(){
 
-    private void createContents(final Shell shell){
-//        shell.setLayout(new GridLayout(2, false));
+        for(int i = 0; i < colorLabels.length; i++){
 
-        // Start with Celtics green
-        color = new Color(shell.getDisplay(), new RGB(0, 255, 0));
+            final int var = i;
 
-        // Use a label full of spaces to show the color
-        final CLabel colorLabel = new CLabel(shell, SWT.NONE);
-        colorLabel.setText("                              ");
-        colorLabel.setBounds(shell.getBounds().width/2 - 100, 30, 200, 30);
-        colorLabel.setBackground(color);
+            chooseColors[i] = new Button(shell, SWT.PUSH);
+            chooseColors[i].setBounds(colorLabels[i].getBounds().x + colorLabels[i].getBounds().width + 30, colorLabels[i].getBounds().y, colorLabels[i].getBounds().width / 2, colorLabels[i].getBounds().height);
+            chooseColors[i].setText("Color...");
 
-        Button button = new Button(shell, SWT.PUSH);
-        button.setText("Color...");
-        button.setBounds(shell.getBounds().width/2 + 130, 30, 80, 30);
-        button.addSelectionListener(new SelectionAdapter(){
-            public void widgetSelected(SelectionEvent event){
-                // Create the color-change dialog
-                ColorDialog dlg = new ColorDialog(shell);
+            chooseColors[i].addSelectionListener(new SelectionAdapter(){
 
-                // Set the selected color in the dialog from user's selected color
-                dlg.setRGB(colorLabel.getBackground().getRGB());
+                @Override
+                public void widgetSelected(SelectionEvent e){
 
-                // Change the title bar text
-                dlg.setText("Choose a Color");
+                    ColorDialog dlg = new ColorDialog(shell);
+                    dlg.setRGB(colorLabels[var].getBackground().getRGB());
+                    dlg.setText("Choose a Color");
 
-                // Open the dialog and retrieve the selected color
-                RGB rgb = dlg.open();
-                if (rgb != null) {
-                    // Dispose the old color, create the new one, and set into the label
-                    color.dispose();
-                    color = new Color(shell.getDisplay(), rgb);
-                    colorLabel.setBackground(color);
+                    RGB rgb = dlg.open();
+                    if(rgb != null){
+                        colorArray[var].dispose();
+                        colorArray[var] = new Color(shell.getDisplay(), rgb);
+                        colorLabels[var].setBackground(colorArray[var]);
+                   }
                 }
-            }
-        });
+            });
+        }
 
         Button doneButton = new Button(shell, SWT.PUSH);
         doneButton.setText("Done");
@@ -105,11 +119,48 @@ public class ColorPicker{
             @Override
             public void widgetSelected(SelectionEvent e){
 
+                for(int i = 0; i < colorLabels.length; i++){
+
+                    colorArray[i] = colorLabels[i].getBackground();
+
+//                    System.out.println(colorArray[i]);
+
+                }
+
+                MainView.resetCycle();
+
+                ColorHelper.setColors(colorArray);
+                ColorHelper.getColors();
+                ColorHelper.clearFile();
+
                 shell.close();
                 shell.dispose();
 
             }
         });
+
+    }
+
+    public static void initColor(Shell shell){
+
+        colorLabels = new CLabel[8];
+        typeLabels = new CLabel[colorLabels.length];
+        colorArray = new Color[colorLabels.length];
+        chooseColors = new Button[typeLabels.length];
+
+        for(int i = 0; i < colorLabels.length; i++){
+            colorArray[i] = new Color(shell.getDisplay(), new RGB(i * 10 + 10, i * 10 + 10, i * 30 + 10));
+        }
+    }
+
+    private static void loadColorArray(){
+        for(int i = 0; i < colorArray.length; i++){
+            colorArray[i] = colorLabels[i].getBackground();
+        }
+    }
+
+    public static Color[] getColorArray(){
+        return colorArray;
     }
 
     /**
