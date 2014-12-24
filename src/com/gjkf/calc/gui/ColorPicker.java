@@ -49,11 +49,11 @@ public class ColorPicker{
         shell.setText("Color Chooser");
         shell.setSize(500, 500);
 
-//        initColor();
+//        initColor(shell);
         initLabels();
         initButtons();
 
-        loadColorArray();
+//        loadColorArray();
 
         center();
         open();
@@ -107,7 +107,7 @@ public class ColorPicker{
                         colorArray[var].dispose();
                         colorArray[var] = new Color(shell.getDisplay(), rgb);
                         colorLabels[var].setBackground(colorArray[var]);
-                   }
+                    }
                 }
             });
         }
@@ -129,9 +129,8 @@ public class ColorPicker{
 
                 MainView.resetCycle();
 
-                ColorHelper.setColors(colorArray);
-                ColorHelper.getColors();
                 ColorHelper.clearFile();
+                ColorHelper.setColors(colorArray);
 
                 shell.close();
                 shell.dispose();
@@ -153,10 +152,8 @@ public class ColorPicker{
         }
     }
 
-    private static void loadColorArray(){
-        for(int i = 0; i < colorArray.length; i++){
-            colorArray[i] = colorLabels[i].getBackground();
-        }
+    public static void loadColorArray(Shell shell){
+        colorArray = ColorHelper.getColors(shell.getDisplay());
     }
 
     public static Color[] getColorArray(){

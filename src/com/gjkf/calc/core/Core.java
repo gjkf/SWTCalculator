@@ -56,7 +56,7 @@ public class Core{
 
 		//TODO: fix the infinite loop when doing a second run with changed multiplier
 
-		int var = (int) (100 * multiplier);
+		int var = (int) (100 / multiplier);
 
 		double increases = 1 / multiplier;
 
@@ -102,7 +102,7 @@ public class Core{
 
 			yValue = Double.parseDouble(engine.eval(tempFormula).toString());
 
-			System.out.println(yValue);
+//			System.out.println(yValue);
 
 			tempFormula = tempFormula1;
 
