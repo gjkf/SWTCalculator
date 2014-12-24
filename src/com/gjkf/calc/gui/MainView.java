@@ -91,7 +91,7 @@ public class MainView{
 
 		GC gc = new GC(canvas);
 		
-		System.out.println("Draw:cycle: " + cycle);
+//		System.out.println("Draw:cycle: " + cycle);
 
 //		if(cycle <= 0)
 //			gc.setForeground(display.getSystemColor(SWT.COLOR_BLACK));
@@ -115,7 +115,7 @@ public class MainView{
 
 		Color[] cArray = ColorPicker.getColorArray();
 
-		System.out.println(cArray[cycle]);
+//		System.out.println(cArray[cycle]);
 
 		gc.setForeground(cArray[cycle]);
 
@@ -238,7 +238,7 @@ public class MainView{
 
 				if(e.keyCode == 13){
 
-					System.out.println(formula);
+//					System.out.println(formula);
 
 					if(!multiplierTextField.getText().equals(""))
 						try{
@@ -268,7 +268,7 @@ public class MainView{
 
 			@Override
 			public void mouseDown(MouseEvent e){
-				System.out.println("...");
+//				System.out.println("...");
 				extended = ! extended;
 
 				if(extended){

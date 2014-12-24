@@ -89,7 +89,7 @@ public class ColorHelper{
 
         try{
             file = new File(Main.class.getResource("/colors/Colors.txt").toURI());
-            System.out.println(file);
+//            System.out.println(file);
         }catch(URISyntaxException e){
             e.printStackTrace();
         }
@@ -128,10 +128,12 @@ public class ColorHelper{
 
         BufferedWriter writer = null;
         try{
-            writer = new BufferedWriter(new FileWriter(file, false));
-            writer.write("");
-            writer.flush();
-            writer.close();
+            if(file != null){
+                writer = new BufferedWriter(new FileWriter(file, false));
+                writer.write("");
+                writer.flush();
+                writer.close();
+            }
         }catch(IOException e){
             e.printStackTrace();
         }

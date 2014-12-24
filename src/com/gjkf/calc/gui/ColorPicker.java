@@ -41,6 +41,12 @@ public class ColorPicker{
 
     private static Color[] colorArray;
 
+    /**
+     * The entry point for this class
+     *
+     * @param display The current display
+     */
+
     public void run(Display display){
 
         this.display = display;
@@ -59,6 +65,10 @@ public class ColorPicker{
         open();
 
     }
+
+    /**
+     * Initialises all the labels
+     */
 
     private void initLabels(){
 
@@ -82,6 +92,10 @@ public class ColorPicker{
         }
 
     }
+
+    /**
+     * Initialises all the buttons
+     */
 
     private void initButtons(){
 
@@ -140,6 +154,12 @@ public class ColorPicker{
 
     }
 
+    /**
+     * Initialises the color setting its default
+     *
+     * @param shell The current shell
+     */
+
     public static void initColor(Shell shell){
 
         colorLabels = new CLabel[8];
@@ -151,6 +171,14 @@ public class ColorPicker{
             colorArray[i] = new Color(shell.getDisplay(), new RGB(i * 10 + 10, i * 10 + 10, i * 30 + 10));
         }
     }
+
+    /**
+     * Loads the color array from the file
+     *
+     * @param shell The current shell
+     *
+     * @see com.gjkf.calc.core.ColorHelper
+     */
 
     public static void loadColorArray(Shell shell){
         colorArray = ColorHelper.getColors(shell.getDisplay());

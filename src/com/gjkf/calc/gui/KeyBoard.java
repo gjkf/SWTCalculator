@@ -36,8 +36,8 @@ public class KeyBoard{
 
 	private Button[] firstRowNumberButtons = new Button[5];
 	private Button[] secondRowNumberButtons = new Button[4];
-	private Button[] thirdRowNumberButtons = new Button[7];
-	private Button[] fourthRowButtons = new Button[6];
+	private Button[] thirdRowNumberButtons = new Button[8];
+	private Button[] fourthRowButtons = new Button[8];
 
 	public KeyBoard(int x, int y, CLabel cLabel, Shell shell){
 
@@ -105,6 +105,8 @@ public class KeyBoard{
 				thirdRowNumberButtons[i].setText("sin");
 			else if(i == 6)
 				thirdRowNumberButtons[i].setText("tan");
+			else if(i == 7)
+				thirdRowNumberButtons[i].setText("pow");
 		}
 
 		for(int i = 0; i < fourthRowButtons.length; i++){
@@ -121,6 +123,10 @@ public class KeyBoard{
 				fourthRowButtons[i].setText("AC");
 			else if(i == 5)
 				fourthRowButtons[i].setText("cos");
+			else if(i == 6)
+				fourthRowButtons[i].setText("sqrt");
+			else if(i == 7)
+				fourthRowButtons[i].setText("rt");
 		}
 
 		setListeners("1");
@@ -145,6 +151,9 @@ public class KeyBoard{
 		setListeners("sin");
 		setListeners("cos");
 		setListeners("tan");
+		setListeners("sqrt");
+		setListeners("rt");
+		setListeners("pow");
 
 	}
 
@@ -177,7 +186,7 @@ public class KeyBoard{
 
 					@Override
 					public void mouseDown(MouseEvent e){
-						System.out.println("1");
+//						System.out.println("1");
 						label.setText(label.getText() + "1");
 					}
 
@@ -187,7 +196,7 @@ public class KeyBoard{
 
 					@Override
 					public void mouseDown(MouseEvent e){
-						System.out.println("2");
+//						System.out.println("2");
 						label.setText(label.getText() + "2");
 					}
 
@@ -197,7 +206,7 @@ public class KeyBoard{
 
 					@Override
 					public void mouseDown(MouseEvent e){
-						System.out.println("3");
+//						System.out.println("3");
 						label.setText(label.getText() + "3");
 					}
 
@@ -207,7 +216,7 @@ public class KeyBoard{
 
 					@Override
 					public void mouseDown(MouseEvent e){
-						System.out.println("4");
+//						System.out.println("4");
 						label.setText(label.getText() + "4");
 					}
 
@@ -217,7 +226,7 @@ public class KeyBoard{
 
 					@Override
 					public void mouseDown(MouseEvent e){
-						System.out.println("5");
+//						System.out.println("5");
 						label.setText(label.getText() + "5");
 					}
 
@@ -227,7 +236,7 @@ public class KeyBoard{
 
 					@Override
 					public void mouseDown(MouseEvent e){
-						System.out.println("6");
+//						System.out.println("6");
 						label.setText(label.getText() + "6");
 					}
 
@@ -237,7 +246,7 @@ public class KeyBoard{
 
 					@Override
 					public void mouseDown(MouseEvent e){
-						System.out.println("7");
+//						System.out.println("7");
 						label.setText(label.getText() + "7");
 					}
 
@@ -247,7 +256,7 @@ public class KeyBoard{
 
 					@Override
 					public void mouseDown(MouseEvent e){
-						System.out.println("8");
+//						System.out.println("8");
 						label.setText(label.getText() + "8");
 					}
 
@@ -257,7 +266,7 @@ public class KeyBoard{
 
 					@Override
 					public void mouseDown(MouseEvent e){
-						System.out.println("9");
+//						System.out.println("9");
 						label.setText(label.getText() + "9");
 					}
 
@@ -267,7 +276,7 @@ public class KeyBoard{
 
 					@Override
 					public void mouseDown(MouseEvent e){
-						System.out.println("0");
+//						System.out.println("0");
 						label.setText(label.getText() + "0");
 					}
 
@@ -287,20 +296,24 @@ public class KeyBoard{
 
 					@Override
 					public void mouseDown(MouseEvent e){
-						System.out.println("x");
+//						System.out.println("x");
 						String result = null;
 
-						Core.x = Double.parseDouble(label.getText());
+						if(label.getText() != null && Core.x != 0 && Core.y != 0){
 
-						Core.x = Core.x * Core.y;
+							Core.x = Double.parseDouble(label.getText());
 
-						pullDown();
+							Core.x = Core.x * Core.y;
 
-						result = Double.toString(Core.x);
+							pullDown();
 
-						label.setText(result);
+							result = Double.toString(Core.x);
 
-						calculated = true;
+							label.setText(result);
+
+							calculated = true;
+
+						}
 
 					}
 
@@ -310,22 +323,26 @@ public class KeyBoard{
 
 					@Override
 					public void mouseDown(MouseEvent e){
-						System.out.println(":");
+//						System.out.println(":");
 
 						String result = null;
 
-						Core.x = Double.parseDouble(label.getText());
+						if(label.getText() != null && Core.x != 0 && Core.y != 0){
 
-						if(Core.x != 0)
-							Core.x = Core.x / Core.y;
+							Core.x = Double.parseDouble(label.getText());
 
-						pullDown();
+							if(Core.x != 0)
+								Core.x = Core.x / Core.y;
 
-						result = Double.toString(Core.x);
+							pullDown();
 
-						label.setText(result);
+							result = Double.toString(Core.x);
 
-						calculated = true;
+							label.setText(result);
+
+							calculated = true;
+
+						}
 
 					}
 
@@ -335,21 +352,25 @@ public class KeyBoard{
 
 					@Override
 					public void mouseDown(MouseEvent e){
-						System.out.println("+");
+//						System.out.println("+");
 
 						String result = null;
 
-						Core.x = Double.parseDouble(label.getText());
+						if(label.getText() != null && Core.x != 0 && Core.y != 0){
 
-						Core.x = Core.x + Core.y;
+							Core.x = Double.parseDouble(label.getText());
 
-						pullDown();
+							Core.x = Core.x + Core.y;
 
-						result = Double.toString(Core.x);
+							pullDown();
 
-						label.setText(result);
+							result = Double.toString(Core.x);
 
-						calculated = true;
+							label.setText(result);
+
+							calculated = true;
+
+						}
 
 					}
 
@@ -359,22 +380,25 @@ public class KeyBoard{
 
 					@Override
 					public void mouseDown(MouseEvent e){
-						System.out.println("-");
-						//label.setText(label.getText()
+//						System.out.println("-");
 
 						String result = null;
 
-						Core.x = Double.parseDouble(label.getText());
+						if(label.getText() != null && Core.x != 0 && Core.y != 0){
 
-						Core.x = Core.x - Core.y;
+							Core.x = Double.parseDouble(label.getText());
 
-						pullDown();
+							Core.x = Core.x - Core.y;
 
-						result = Double.toString(Core.x);
+							pullDown();
 
-						label.setText(result);
+							result = Double.toString(Core.x);
 
-						calculated = true;
+							label.setText(result);
+
+							calculated = true;
+
+						}
 
 					}
 
@@ -384,12 +408,16 @@ public class KeyBoard{
 
 					@Override
 					public void mouseDown(MouseEvent e){
-						System.out.println("Del");
-						if(label.getText() != null || ! label.getText().equals("")){
-							if(label.getText().endsWith(" "))
-								label.setText(label.getText().substring(0, label.getText().length() - 2));
-							else
-								label.setText(label.getText().substring(0, label.getText().length() - 1));
+//						System.out.println("Del");
+						if(label.getText() != null){
+							if(!label.getText().equals("")){
+
+								if(label.getText().endsWith(" "))
+									label.setText(label.getText().substring(0, label.getText().length() - 2));
+								else
+									label.setText(label.getText().substring(0, label.getText().length() - 1));
+
+							}
 						}
 
 					}
@@ -400,11 +428,11 @@ public class KeyBoard{
 
 					@Override
 					public void mouseDown(MouseEvent e){
-						System.out.println("AC");
+//						System.out.println("AC");
 						label.setText("");
-						System.out.println(Core.x + ":X " + Core.y + ":Y " + Core.z + ":Z " + Core.t + ":T");
+//						System.out.println(Core.x + ":X " + Core.y + ":Y " + Core.z + ":Z " + Core.t + ":T");
 						Core.clearStack();
-						System.out.println(Core.x + ":X " + Core.y + ":Y " + Core.z + ":Z " + Core.t + ":T");
+//						System.out.println(Core.x + ":X " + Core.y + ":Y " + Core.z + ":Z " + Core.t + ":T");
 					}
 
 				});
@@ -413,13 +441,13 @@ public class KeyBoard{
 
 					@Override
 					public void mouseDown(MouseEvent e){
-						System.out.println("Ent");
+//						System.out.println("Ent");
 
 						Core.x = Double.parseDouble(label.getText());
 
 						pushUp();
 
-						System.err.println("TEXT: " + label.getText());
+//						System.err.println("TEXT: " + label.getText());
 
 						label.setText("");
 
@@ -431,14 +459,14 @@ public class KeyBoard{
 
 					@Override
 					public void mouseDown(MouseEvent e){
-						System.out.println("sin");
+//						System.out.println("sin");
 
 						Core.x = Math.sin(Core.x);
 
 						pullDown();
 						pushUp();
 
-						System.out.println("X: " + Core.x + " Sin(x): " + Math.sin(Core.x));
+//						System.out.println("X: " + Core.x + " Sin(x): " + Math.sin(Core.x));
 
 						label.setText(Double.toString(Core.x));
 
@@ -450,9 +478,9 @@ public class KeyBoard{
 
 					@Override
 					public void mouseDown(MouseEvent e){
-						System.out.println("cos");
+//						System.out.println("cos");
 
-						System.out.println("X: " + Core.x + " Cos(x): " + Math.cos(Core.x));
+//						System.out.println("X: " + Core.x + " Cos(x): " + Math.cos(Core.x));
 
 						Core.x = Math.cos(Core.x);
 
@@ -469,11 +497,62 @@ public class KeyBoard{
 
 					@Override
 					public void mouseDown(MouseEvent e){
-						System.out.println("tan");
+//						System.out.println("tan");
 
-						System.out.println("X: " + Core.x + " Tan(x): " + Math.tan(Core.x));
+//						System.out.println("X: " + Core.x + " Tan(x): " + Math.tan(Core.x));
 
 						Core.x = Math.tan(Core.x);
+
+						pullDown();
+						pushUp();
+
+						label.setText(Double.toString(Core.x));
+
+					}
+
+				});
+			}else if(ident.equals("sqrt")){
+				fourthRowButtons[6].addMouseListener(new MouseAdapter(){
+
+					@Override
+					public void mouseDown(MouseEvent e){
+//						System.out.println("sqrt");
+
+						Core.x = Math.sqrt(Core.x);
+
+						pullDown();
+						pushUp();
+
+						label.setText(Double.toString(Core.x));
+
+					}
+
+				});
+			}else if(ident.equals("rt")){
+				fourthRowButtons[7].addMouseListener(new MouseAdapter(){
+
+					@Override
+					public void mouseDown(MouseEvent e){
+//						System.out.println("rt");
+
+						Core.x = Math.pow(Core.y, 1 / Double.parseDouble(label.getText()));
+
+						pullDown();
+						pushUp();
+
+						label.setText(Double.toString(Core.x));
+
+					}
+
+				});
+			}else if(ident.equals("pow")){
+				thirdRowNumberButtons[7].addMouseListener(new MouseAdapter(){
+
+					@Override
+					public void mouseDown(MouseEvent e){
+//						System.out.println("pow");
+
+						Core.x = Math.pow(Core.y, Double.parseDouble(label.getText()));
 
 						pullDown();
 						pushUp();
