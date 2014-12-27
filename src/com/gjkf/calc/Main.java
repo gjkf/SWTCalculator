@@ -17,29 +17,11 @@
 package com.gjkf.calc;
 
 import com.gjkf.calc.gui.MainView;
-import com.gjkf.calc.updater.Updater;
 import org.eclipse.swt.widgets.Display;
-
-import java.io.InputStream;
-import java.util.Scanner;
 
 public class Main{
 
 	public static void main(String[] args){
-
-		InputStream inputStream = Main.class.getResourceAsStream("/version/version.txt");
-
-		Scanner scanner = new Scanner(inputStream);
-
-		String version = scanner.nextLine().substring(9);
-
-		System.out.println("VersionMain: " + version);
-
-		//TODO: make an actual server hosting my stuff
-
-		Updater updater = new Updater("http://update.skcraft.com/quark/launcher/latest.json", version);
-
-		updater.run();
 
 		Display d = new Display();
 		MainView view = new MainView();
