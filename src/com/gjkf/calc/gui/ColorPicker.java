@@ -16,7 +16,6 @@
 
 package com.gjkf.calc.gui;
 
-import com.gjkf.calc.core.ColorHelper;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -143,9 +142,6 @@ public class ColorPicker{
 
                 MainView.resetCycle();
 
-                ColorHelper.clearFile();
-                ColorHelper.setColors(colorArray);
-
                 shell.close();
                 shell.dispose();
 
@@ -170,18 +166,7 @@ public class ColorPicker{
         for(int i = 0; i < colorLabels.length; i++){
             colorArray[i] = new Color(shell.getDisplay(), new RGB(i * 10 + 10, i * 10 + 10, i * 30 + 10));
         }
-    }
 
-    /**
-     * Loads the color array from the file
-     *
-     * @param shell The current shell
-     *
-     * @see com.gjkf.calc.core.ColorHelper
-     */
-
-    public static void loadColorArray(Shell shell){
-        colorArray = ColorHelper.getColors(shell.getDisplay());
     }
 
     public static Color[] getColorArray(){

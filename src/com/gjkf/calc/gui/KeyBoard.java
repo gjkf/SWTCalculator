@@ -187,6 +187,11 @@ public class KeyBoard{
 					@Override
 					public void mouseDown(MouseEvent e){
 //						System.out.println("1");
+						if(calculated){
+							label.setText("");
+							pushUp();
+						}
+						calculated = false;
 						label.setText(label.getText() + "1");
 					}
 
@@ -197,6 +202,11 @@ public class KeyBoard{
 					@Override
 					public void mouseDown(MouseEvent e){
 //						System.out.println("2");
+						if(calculated){
+							label.setText("");
+							pushUp();
+						}
+						calculated = false;
 						label.setText(label.getText() + "2");
 					}
 
@@ -207,6 +217,11 @@ public class KeyBoard{
 					@Override
 					public void mouseDown(MouseEvent e){
 //						System.out.println("3");
+						if(calculated){
+							label.setText("");
+							pushUp();
+						}
+						calculated = false;
 						label.setText(label.getText() + "3");
 					}
 
@@ -217,6 +232,11 @@ public class KeyBoard{
 					@Override
 					public void mouseDown(MouseEvent e){
 //						System.out.println("4");
+						if(calculated){
+							label.setText("");
+							pushUp();
+						}
+						calculated = false;
 						label.setText(label.getText() + "4");
 					}
 
@@ -227,6 +247,11 @@ public class KeyBoard{
 					@Override
 					public void mouseDown(MouseEvent e){
 //						System.out.println("5");
+						if(calculated){
+							label.setText("");
+							pushUp();
+						}
+						calculated = false;
 						label.setText(label.getText() + "5");
 					}
 
@@ -237,6 +262,11 @@ public class KeyBoard{
 					@Override
 					public void mouseDown(MouseEvent e){
 //						System.out.println("6");
+						if(calculated){
+							label.setText("");
+							pushUp();
+						}
+						calculated = false;
 						label.setText(label.getText() + "6");
 					}
 
@@ -247,6 +277,11 @@ public class KeyBoard{
 					@Override
 					public void mouseDown(MouseEvent e){
 //						System.out.println("7");
+						if(calculated){
+							label.setText("");
+							pushUp();
+						}
+						calculated = false;
 						label.setText(label.getText() + "7");
 					}
 
@@ -257,6 +292,11 @@ public class KeyBoard{
 					@Override
 					public void mouseDown(MouseEvent e){
 //						System.out.println("8");
+						if(calculated){
+							label.setText("");
+							pushUp();
+						}
+						calculated = false;
 						label.setText(label.getText() + "8");
 					}
 
@@ -267,6 +307,11 @@ public class KeyBoard{
 					@Override
 					public void mouseDown(MouseEvent e){
 //						System.out.println("9");
+						if(calculated){
+							label.setText("");
+							pushUp();
+						}
+						calculated = false;
 						label.setText(label.getText() + "9");
 					}
 
@@ -277,6 +322,11 @@ public class KeyBoard{
 					@Override
 					public void mouseDown(MouseEvent e){
 //						System.out.println("0");
+						if(calculated){
+							label.setText("");
+							pushUp();
+						}
+						calculated = false;
 						label.setText(label.getText() + "0");
 					}
 
@@ -286,7 +336,12 @@ public class KeyBoard{
 
 					@Override
 					public void mouseDown(MouseEvent e){
-						System.out.println(".");
+//						System.out.println(".");
+						if(calculated){
+							label.setText("");
+							pushUp();
+						}
+						calculated = false;
 						label.setText(label.getText() + ".");
 					}
 

@@ -63,7 +63,6 @@ public class MainView{
 		drawAxis();
 
 		ColorPicker.initColor(shell);
-		ColorPicker.loadColorArray(shell);
 
 		initButtons();
 		initTextField();
@@ -146,7 +145,6 @@ public class MainView{
 			public void widgetSelected(SelectionEvent e) {
 				ColorPicker colorPicker = new ColorPicker();
 				colorPicker.run(display);
-				colorPicker.loadColorArray(shell);
 			}
 		});
 		colors.setText("Colors");
@@ -299,8 +297,6 @@ public class MainView{
 					initTextField();
 
 					drawAxis();
-
-					ColorPicker.loadColorArray(shell);
 
 				}
 			}

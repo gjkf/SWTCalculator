@@ -98,7 +98,7 @@ public class Core{
 
 			tempFormula = tempFormula.replaceAll("x", Double.toString(currX));
 
-			System.err.println(tempFormula);
+//			System.err.println(tempFormula);
 
 			yValue = Double.parseDouble(engine.eval(tempFormula).toString());
 

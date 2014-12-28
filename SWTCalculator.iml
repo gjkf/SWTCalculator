@@ -10,7 +10,7 @@
     <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/Desktop/eclipse related/swt-4.4-cocoa-macosx-x86_64/swt-debug.jar!/" />
+          <root url="jar://$USER_HOME$/Desktop/eclipse related/Swts/swt-4.4-cocoa-macosx-x86_64/swt.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
