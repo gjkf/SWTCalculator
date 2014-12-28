@@ -30,7 +30,7 @@ public class Core{
 	/**
 	 * Clears the stack, used in the RPN
 	 *
-	 * @see com.gjkf.calc.gui.KeyBoard @400
+	 * @see com.gjkf.calc.gui.KeyBoard
 	 */
 
 	public static void clearStack(){
@@ -47,16 +47,13 @@ public class Core{
 	 * @param cycle The current cycle, used to change the line colour
 	 *
 	 * @throws java.lang.NullPointerException If the <code>formula</code> is null
-	 * @throws javax.script.ScriptException If the engine can't resolve the <code>formula</code>
 	 *
 	 * @see com.gjkf.calc.gui.MainView
 	 */
 
-	public static void calculateAndDraw(Canvas canvas, String formula, double multiplier, int cycle) throws ScriptException{
+	public static void calculateAndDraw(Canvas canvas, String formula, double multiplier, int cycle){
 
-		//TODO: fix the infinite loop when doing a second run with changed multiplier
-
-		int var = (int) (100 / multiplier);
+		int var = (int) ((canvas.getBounds().width/2) / multiplier);
 
 		double increases = 1 / multiplier;
 
@@ -71,6 +68,10 @@ public class Core{
 		ScriptEngineManager mgr = new ScriptEngineManager();
 		ScriptEngine engine = mgr.getEngineByName("JavaScript");
 
+		/*
+		 * Substituting functions to make sure that the JavaScript Engine can understand them
+		 */
+
 		tempFormula1 = tempFormula1.replaceAll("sin", "Math.sin");
 		tempFormula1 = tempFormula1.replaceAll("cos", "Math.cos");
 		tempFormula1 = tempFormula1.replaceAll("tan", "Math.tan");
@@ -81,9 +82,7 @@ public class Core{
 
 
 		tempFormula = tempFormula1;
-//		System.out.println(tempFormula);
 
-//		var = 5;
 
 		for(currX = -var; currX < var; currX += increases){
 
@@ -100,7 +99,22 @@ public class Core{
 
 //			System.err.println(tempFormula);
 
-			yValue = Double.parseDouble(engine.eval(tempFormula).toString());
+			/*
+			 * Using the JavaScript Engine for the calculations
+			 */
+
+			try{
+				yValue = Double.parseDouble(engine.eval(tempFormula).toString());
+			}catch(ScriptException e){
+
+				if(!MainView.errorLabel.isDisposed() && MainView.errorLabel != null)
+					MainView.errorLabel.setText(e.getMessage().substring(e.getMessage().indexOf(": \"") + 2, e.getMessage().indexOf("defined.") + "defined.".length()));
+
+				MainView.resetCycle();
+
+				break;
+
+			}
 
 //			System.out.println(yValue);
 

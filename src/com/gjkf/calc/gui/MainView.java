@@ -24,8 +24,6 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.widgets.*;
 
-import javax.script.ScriptException;
-
 public class MainView{
 
 	private static Display display;
@@ -34,6 +32,8 @@ public class MainView{
 	private static Canvas canvas;
 
 	private static CLabel expressionLabel, xStackLabel, yStackLabel, zStackLabel, tStackLabel, yLabel, multLabel;
+
+	public static CLabel errorLabel;
 
 	private Text formulaField, multiplierTextField;
 
@@ -60,12 +60,12 @@ public class MainView{
 
 		initMenu();
 
-		drawAxis();
-
 		ColorPicker.initColor(shell);
 
 		initButtons();
 		initTextField();
+
+		drawAxis();
 
 		initTimer();
 
@@ -89,25 +89,6 @@ public class MainView{
 	public static void draw(int x1, int y1, int x2, int y2, int cycle){
 
 		GC gc = new GC(canvas);
-		
-//		System.out.println("Draw:cycle: " + cycle);
-
-//		if(cycle <= 0)
-//			gc.setForeground(display.getSystemColor(SWT.COLOR_BLACK));
-//		else if(cycle == 1)
-//			gc.setForeground(display.getSystemColor(SWT.COLOR_RED));
-//		else if(cycle == 2)
-//			gc.setForeground(display.getSystemColor(SWT.COLOR_BLUE));
-//		else if(cycle == 3)
-//			gc.setForeground(display.getSystemColor(SWT.COLOR_GREEN));
-//		else if(cycle == 4)
-//			gc.setForeground(display.getSystemColor(SWT.COLOR_CYAN));
-//		else if(cycle == 5)
-//			gc.setForeground(display.getSystemColor(SWT.COLOR_MAGENTA));
-//		else if(cycle == 6)
-//			gc.setForeground(display.getSystemColor(SWT.COLOR_YELLOW));
-//		else if(cycle == 7)
-//			gc.setForeground(display.getSystemColor(SWT.COLOR_WHITE));
 
 		if(cycle > 7)
 			cycle = 0;
@@ -184,39 +165,11 @@ public class MainView{
 		multLabel = new CLabel(shell, SWT.SHADOW_NONE);
 		multLabel.setBounds(55, 490, 100, 40);
 		multLabel.setText("Multiplier = ");
-		
+
 		multiplierTextField = new Text(shell, SWT.CENTER);
 		multiplierTextField.setBounds(150, 500, 70, 20);
 		multiplierTextField.setMessage("Multiplier");
 		multiplierTextField.setText("1");
-		
-//		multiplierTextField.addKeyListener(new KeyListener() {
-//
-//			@Override
-//			public void keyReleased(KeyEvent e){}
-//
-//			@Override
-//			public void keyPressed(KeyEvent e){
-//
-//				/**
-//				 * The <code>key code</code> corresponding to 13 is the Enter Key
-//				 */
-//
-//				if(e.keyCode == 13){
-//
-//					System.out.println(formula);
-//
-//					if(!multiplierTextField.getText().equals(""))
-//						Core.calculateAndDraw(formula, Double.parseDouble(multiplierTextField.getText()), drawCycle);
-////						Core.draw(formula, Double.parseDouble(multiplierTextField.getText()), drawCycle);
-//					else
-//						formulaField.setText("Insert a Multiplier into the text field to the left");
-//
-//				}
-//
-//			}
-//
-//		});
 
 		yLabel = new CLabel(shell, SWT.SHADOW_NONE);
 		yLabel.setBounds(300, 490, 30, 40);
@@ -238,15 +191,12 @@ public class MainView{
 
 //					System.out.println(formula);
 
-					if(!multiplierTextField.getText().equals(""))
-						try{
-//							ColorPicker.loadColorArray();
-							Core.calculateAndDraw(canvas, formula, Double.parseDouble(multiplierTextField.getText()), drawCycle);
-						}catch(ScriptException ex){
-							ex.printStackTrace();
-						}
+					if(!multiplierTextField.getText().equals("")){
+						errorLabel.setText("");
+						errorLabel.redraw();
+						Core.calculateAndDraw(canvas, formula, Double.parseDouble(multiplierTextField.getText()), drawCycle);
 //						Core.draw(formula, Double.parseDouble(multiplierTextField.getText()), drawCycle);
-					else
+					}else
 						formulaField.setText("Insert a Multiplier into the text field to the left");
 
 				}
@@ -310,9 +260,11 @@ public class MainView{
 	 */
 
 	private void initTimer(){
-		
+
 		Runnable timer = new Runnable() {
+			@Override
 			public void run() {
+
 				display.timerExec(time, this);
 
 				if(!formulaField.isDisposed()){
@@ -361,17 +313,22 @@ public class MainView{
 		canvas = new Canvas(shell, SWT.NO_REDRAW_RESIZE);
 
 		canvas.setBounds(0, 40, shell.getBounds().width, shell.getBounds().height/2 + 150);
-		//canvas.setBackground(display.getSystemColor(SWT.COLOR_BLACK));
 		canvas.layout();
 
-		canvas.addPaintListener(new PaintListener() {
-			public void paintControl(PaintEvent e) {
+		canvas.addPaintListener(new PaintListener(){
+			public void paintControl(PaintEvent e){
 
-				e.gc.drawLine(canvas.getBounds().width/2, 0, canvas.getBounds().width/2, canvas.getBounds().height);
-				e.gc.drawLine(0, canvas.getBounds().height/2, canvas.getBounds().width, canvas.getBounds().height/2);
+				e.gc.drawLine(canvas.getBounds().width / 2, 0, canvas.getBounds().width / 2, canvas.getBounds().height);
+				e.gc.drawLine(0, canvas.getBounds().height / 2, canvas.getBounds().width, canvas.getBounds().height / 2);
 
 			}
 		});
+
+		errorLabel = new CLabel(shell, SWT.SHADOW_NONE);
+
+		errorLabel.setBounds(formulaField.getBounds().x, formulaField.getBounds().y + 30, formulaField.getBounds().width, formulaField.getBounds().height);
+		errorLabel.setBackground(display.getSystemColor(SWT.COLOR_RED));
+		errorLabel.setForeground(display.getSystemColor(SWT.COLOR_GRAY));
 
 	}
 
@@ -380,11 +337,11 @@ public class MainView{
 	public static void augmentCycle(){
 		drawCycle++;
 	}
-	
+
 	public static void resetCycle(){
 		drawCycle = 0;
 	}
-	
+
 	/**
 	 * This ensures that the shell stays open until it's closed
 	 */
