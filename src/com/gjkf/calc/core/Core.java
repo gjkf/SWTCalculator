@@ -25,6 +25,8 @@ import javax.script.ScriptException;
 
 public class Core{
 
+	public static boolean error = false;
+
 	public static double x = 0, y = 0, z = 0, t = 0;
 
 	/**
@@ -52,6 +54,8 @@ public class Core{
 	 */
 
 	public static void calculateAndDraw(Canvas canvas, String formula, double multiplier, int cycle){
+
+		error = false;
 
 		int var = (int) ((canvas.getBounds().width/2) / multiplier);
 
@@ -107,8 +111,31 @@ public class Core{
 				yValue = Double.parseDouble(engine.eval(tempFormula).toString());
 			}catch(ScriptException e){
 
-				if(!MainView.errorLabel.isDisposed() && MainView.errorLabel != null)
-					MainView.errorLabel.setText(e.getMessage().substring(e.getMessage().indexOf(": \"") + 2, e.getMessage().indexOf("defined.") + "defined.".length()));
+				if(MainView.errorLabel == null){
+					MainView.initErrorLabel();
+				}
+
+				if(MainView.errorLabel.isDisposed()){
+					MainView.initErrorLabel();
+				}
+
+				MainView.errorLabel.setText("");
+				MainView.errorLabel.redraw();
+
+				error = true;
+				String error = e.getMessage();//.substring(e.getMessage().indexOf(": \"") + 2, e.getMessage().indexOf("defined.") + "defined.".length());
+				System.out.println(e.getMessage());
+
+				if(error.contains(": \""))
+					error = e.getMessage().substring(e.getMessage().indexOf(": \"") + 2, e.getMessage().indexOf("defined.") + "defined.".length());
+				else if(error.contains("syntax"))
+					error = "Syntax error.";
+				else if(error.contains("["))
+					error = "Missing element after list.";
+				else
+					error = "Unexpected end of file.";
+
+				MainView.errorLabel.setText(error);
 
 				MainView.resetCycle();
 

@@ -35,7 +35,7 @@ public class MainView{
 
 	public static CLabel errorLabel;
 
-	private Text formulaField, multiplierTextField;
+	private static Text formulaField, multiplierTextField;
 
 	private static boolean extended = false, changed = false;
 
@@ -66,6 +66,7 @@ public class MainView{
 		initTextField();
 
 		drawAxis();
+//		initErrorLabel();
 
 		initTimer();
 
@@ -192,10 +193,12 @@ public class MainView{
 //					System.out.println(formula);
 
 					if(!multiplierTextField.getText().equals("")){
-						errorLabel.setText("");
-						errorLabel.redraw();
+//						if(errorLabel != null && !errorLabel.isDisposed()){
+//							errorLabel.setText("");
+//							errorLabel.redraw();
+//						}
 						Core.calculateAndDraw(canvas, formula, Double.parseDouble(multiplierTextField.getText()), drawCycle);
-//						Core.draw(formula, Double.parseDouble(multiplierTextField.getText()), drawCycle);
+//						Core.draw(formula, Double.parseDouble(multiplierTextField.getText()), drawCycle);s
 					}else
 						formulaField.setText("Insert a Multiplier into the text field to the left");
 
@@ -267,6 +270,12 @@ public class MainView{
 
 				display.timerExec(time, this);
 
+				if((!Core.error && errorLabel != null )&& !errorLabel.isDisposed())
+					errorLabel.dispose();
+
+				if((Core.error && errorLabel != null) && errorLabel.isDisposed())
+					initErrorLabel();
+
 				if(!formulaField.isDisposed()){
 
 					if(!multiplier.equals(multiplierTextField.getText())){
@@ -324,12 +333,14 @@ public class MainView{
 			}
 		});
 
-		errorLabel = new CLabel(shell, SWT.SHADOW_NONE);
+	}
 
-		errorLabel.setBounds(formulaField.getBounds().x, formulaField.getBounds().y + 30, formulaField.getBounds().width, formulaField.getBounds().height);
-		errorLabel.setBackground(display.getSystemColor(SWT.COLOR_RED));
-		errorLabel.setForeground(display.getSystemColor(SWT.COLOR_GRAY));
+	public static void initErrorLabel(){
+			errorLabel = new CLabel(shell, SWT.SHADOW_NONE);
 
+			errorLabel.setBounds(formulaField.getBounds().x, formulaField.getBounds().y + 30, formulaField.getBounds().width, formulaField.getBounds().height);
+			errorLabel.setBackground(display.getSystemColor(SWT.COLOR_RED));
+			errorLabel.setForeground(display.getSystemColor(SWT.COLOR_GRAY));
 	}
 
 	public static boolean isChanged(){ return changed;}

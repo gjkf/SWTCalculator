@@ -13,7 +13,9 @@
           <root url="jar://$USER_HOME$/Desktop/eclipse related/Swts/swt-4.4-cocoa-macosx-x86_64/swt.jar!/" />
         </CLASSES>
         <JAVADOC />
-        <SOURCES />
+        <SOURCES>
+          <root url="jar://$USER_HOME$/Desktop/eclipse related/Swts/swt-4.4-cocoa-macosx-x86_64/src.zip!/" />
+        </SOURCES>
       </library>
     </orderEntry>
   </component>
