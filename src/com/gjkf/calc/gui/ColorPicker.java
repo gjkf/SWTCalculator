@@ -160,9 +160,18 @@ public class ColorPicker{
         colorArray = new Color[colorLabels.length];
         chooseColors = new Button[typeLabels.length];
 
-        for(int i = 0; i < colorLabels.length; i++){
-            colorArray[i] = new Color(shell.getDisplay(), new RGB(i * 10 + 10, i * 10 + 10, i * 30 + 10));
-        }
+//        for(int i = 0; i < colorLabels.length; i++){
+//            colorArray[i] = new Color(shell.getDisplay(), new RGB(i * 10 + 10, i * 20 + 10, i * 30 + 10));
+//        }
+
+        colorArray[0] = new Color(shell.getDisplay(), new RGB(0, 0, 0));
+        colorArray[1] = new Color(shell.getDisplay(), new RGB(255, 0, 0));
+        colorArray[2] = new Color(shell.getDisplay(), new RGB(0, 255, 0));
+        colorArray[3] = new Color(shell.getDisplay(), new RGB(0, 0, 255));
+        colorArray[4] = new Color(shell.getDisplay(), new RGB(255, 255, 0));
+        colorArray[5] = new Color(shell.getDisplay(), new RGB(255, 0, 255));
+        colorArray[6] = new Color(shell.getDisplay(), new RGB(0, 255, 255));
+        colorArray[7] = new Color(shell.getDisplay(), new RGB(0, 102, 102));
 
     }
 

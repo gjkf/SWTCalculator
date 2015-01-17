@@ -96,6 +96,8 @@ public class MainView{
 
 		Color[] cArray = ColorPicker.getColorArray();
 
+//		gc.drawPolyline(new int[] { x1, y1, x2, y2 });
+
 //		System.out.println(cArray[cycle]);
 
 		gc.setForeground(cArray[cycle]);

@@ -111,7 +111,7 @@ public class Core{
 
 				error = true;
 				String error = e.getMessage();//.substring(e.getMessage().indexOf(": \"") + 2, e.getMessage().indexOf("defined.") + "defined.".length());
-				System.out.println(e.getMessage());
+//				System.out.println(e.getMessage());
 
 				if(error.contains(": \""))
 					error = e.getMessage().substring(e.getMessage().indexOf(": \"") + 2, e.getMessage().indexOf("defined.") + "defined.".length());
@@ -135,7 +135,8 @@ public class Core{
 			tempFormula = tempFormula1;
 
 			if(currX != -var)
-				MainView.draw(canvas.getBounds().width/2 + (int) oldX * (int) multiplier, canvas.getBounds().height/2 - (int) oldY * (int) multiplier, canvas.getBounds().width/2 + (int) currX * (int) multiplier, canvas.getBounds().height/2 - (int) yValue * (int) multiplier, cycle);
+				MainView.draw((int) (canvas.getBounds().width/2 + oldX * multiplier), (int) (canvas.getBounds().height/2 - oldY * multiplier),
+						      (int) (canvas.getBounds().width/2 + currX * multiplier), (int) (canvas.getBounds().height/2 - yValue * multiplier), cycle);
 
 			oldX = currX;
 			oldY = yValue;
