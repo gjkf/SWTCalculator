@@ -16,7 +16,6 @@
 
 package com.gjkf.calc.gui;
 
-import com.gjkf.calc.core.Core;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.events.MouseAdapter;
@@ -26,7 +25,9 @@ import org.eclipse.swt.widgets.Shell;
 
 public class KeyBoard{
 
-	private int x, y;
+	public static double x = 0, y = 0, z = 0, t = 0;
+
+	private int xCoord, yCoord;
 
 	private Shell shell;
 
@@ -41,8 +42,8 @@ public class KeyBoard{
 
 	public KeyBoard(int x, int y, CLabel cLabel, Shell shell){
 
-		this.x = x;
-		this.y = y;
+		this.xCoord = x;
+		this.yCoord = y;
 		this.shell = shell;
 		this.label = cLabel;
 
@@ -57,7 +58,7 @@ public class KeyBoard{
 
 		for(int i = 0; i < firstRowNumberButtons.length; i++){
 			firstRowNumberButtons[i] = new Button(shell, SWT.PUSH);
-			firstRowNumberButtons[i].setBounds(x + 55*i, y, 50, 50);
+			firstRowNumberButtons[i].setBounds(xCoord + 55*i, yCoord, 50, 50);
 
 			if(i == 0)
 				firstRowNumberButtons[i].setText("7");
@@ -69,13 +70,13 @@ public class KeyBoard{
 				firstRowNumberButtons[i].setText("x");
 			else if(i == 4){
 				firstRowNumberButtons[i].setText("ENT");
-				firstRowNumberButtons[i].setBounds(x + 55*i, y, 50, 110);
+				firstRowNumberButtons[i].setBounds(xCoord + 55*i, yCoord, 50, 110);
 			}
 		}
 
 		for(int i = 0; i < secondRowNumberButtons.length; i++){
 			secondRowNumberButtons[i] = new Button(shell, SWT.PUSH);
-			secondRowNumberButtons[i].setBounds(x + 55*i, y + 60, 50, 50);
+			secondRowNumberButtons[i].setBounds(xCoord + 55*i, yCoord + 60, 50, 50);
 
 			if(i == 0)
 				secondRowNumberButtons[i].setText("4");
@@ -89,7 +90,7 @@ public class KeyBoard{
 
 		for(int i = 0; i < thirdRowNumberButtons.length; i++){
 			thirdRowNumberButtons[i] = new Button(shell, SWT.PUSH);
-			thirdRowNumberButtons[i].setBounds(x +55*i, y + 120, 50, 50);
+			thirdRowNumberButtons[i].setBounds(xCoord +55*i, yCoord + 120, 50, 50);
 
 			if(i == 0)
 				thirdRowNumberButtons[i].setText("1");
@@ -111,7 +112,7 @@ public class KeyBoard{
 
 		for(int i = 0; i < fourthRowButtons.length; i++){
 			fourthRowButtons[i] = new Button(shell, SWT.PUSH);
-			fourthRowButtons[i].setBounds(x + 55*i, y + 180, 50, 50);
+			fourthRowButtons[i].setBounds(xCoord + 55*i, yCoord + 180, 50, 50);
 
 			if(i == 0)
 				fourthRowButtons[i].setText("0");
@@ -354,15 +355,15 @@ public class KeyBoard{
 //						System.out.println("x");
 						String result = null;
 
-						if(label.getText() != null && Core.x != 0 && Core.y != 0){
+						if(label.getText() != null && x != 0 && y != 0){
 
-							Core.x = Double.parseDouble(label.getText());
+							x = Double.parseDouble(label.getText());
 
-							Core.x = Core.x * Core.y;
+							x = x * y;
 
 							pullDown();
 
-							result = Double.toString(Core.x);
+							result = Double.toString(x);
 
 							label.setText(result);
 
@@ -382,16 +383,16 @@ public class KeyBoard{
 
 						String result = null;
 
-						if(label.getText() != null && Core.x != 0 && Core.y != 0){
+						if(label.getText() != null && x != 0 && y != 0){
 
-							Core.x = Double.parseDouble(label.getText());
+							x = Double.parseDouble(label.getText());
 
-							if(Core.x != 0)
-								Core.x = Core.x / Core.y;
+							if(x != 0)
+								x = x / y;
 
 							pullDown();
 
-							result = Double.toString(Core.x);
+							result = Double.toString(x);
 
 							label.setText(result);
 
@@ -411,15 +412,15 @@ public class KeyBoard{
 
 						String result = null;
 
-						if(label.getText() != null && Core.x != 0 && Core.y != 0){
+						if(label.getText() != null && x != 0 && y != 0){
 
-							Core.x = Double.parseDouble(label.getText());
+							x = Double.parseDouble(label.getText());
 
-							Core.x = Core.x + Core.y;
+							x = x + y;
 
 							pullDown();
 
-							result = Double.toString(Core.x);
+							result = Double.toString(x);
 
 							label.setText(result);
 
@@ -439,15 +440,15 @@ public class KeyBoard{
 
 						String result = null;
 
-						if(label.getText() != null && Core.x != 0 && Core.y != 0){
+						if(label.getText() != null && x != 0 && y != 0){
 
-							Core.x = Double.parseDouble(label.getText());
+							x = Double.parseDouble(label.getText());
 
-							Core.x = Core.x - Core.y;
+							x = x - y;
 
 							pullDown();
 
-							result = Double.toString(Core.x);
+							result = Double.toString(x);
 
 							label.setText(result);
 
@@ -485,9 +486,7 @@ public class KeyBoard{
 					public void mouseDown(MouseEvent e){
 //						System.out.println("AC");
 						label.setText("");
-//						System.out.println(Core.x + ":X " + Core.y + ":Y " + Core.z + ":Z " + Core.t + ":T");
-						Core.clearStack();
-//						System.out.println(Core.x + ":X " + Core.y + ":Y " + Core.z + ":Z " + Core.t + ":T");
+						clearStack();
 					}
 
 				});
@@ -498,7 +497,7 @@ public class KeyBoard{
 					public void mouseDown(MouseEvent e){
 //						System.out.println("Ent");
 
-						Core.x = Double.parseDouble(label.getText());
+						x = Double.parseDouble(label.getText());
 
 						pushUp();
 
@@ -516,14 +515,12 @@ public class KeyBoard{
 					public void mouseDown(MouseEvent e){
 //						System.out.println("sin");
 
-						Core.x = Math.sin(Core.x);
+						x = Math.sin(x);
 
 						pullDown();
 						pushUp();
 
-//						System.out.println("X: " + Core.x + " Sin(x): " + Math.sin(Core.x));
-
-						label.setText(Double.toString(Core.x));
+						label.setText(Double.toString(x));
 
 					}
 
@@ -535,14 +532,12 @@ public class KeyBoard{
 					public void mouseDown(MouseEvent e){
 //						System.out.println("cos");
 
-//						System.out.println("X: " + Core.x + " Cos(x): " + Math.cos(Core.x));
-
-						Core.x = Math.cos(Core.x);
+						x = Math.cos(x);
 
 						pullDown();
 						pushUp();
 
-						label.setText(Double.toString(Core.x));
+						label.setText(Double.toString(x));
 
 					}
 
@@ -554,14 +549,12 @@ public class KeyBoard{
 					public void mouseDown(MouseEvent e){
 //						System.out.println("tan");
 
-//						System.out.println("X: " + Core.x + " Tan(x): " + Math.tan(Core.x));
-
-						Core.x = Math.tan(Core.x);
+						x = Math.tan(x);
 
 						pullDown();
 						pushUp();
 
-						label.setText(Double.toString(Core.x));
+						label.setText(Double.toString(x));
 
 					}
 
@@ -573,12 +566,12 @@ public class KeyBoard{
 					public void mouseDown(MouseEvent e){
 //						System.out.println("sqrt");
 
-						Core.x = Math.sqrt(Core.x);
+						x = Math.sqrt(x);
 
 						pullDown();
 						pushUp();
 
-						label.setText(Double.toString(Core.x));
+						label.setText(Double.toString(x));
 
 					}
 
@@ -590,12 +583,12 @@ public class KeyBoard{
 					public void mouseDown(MouseEvent e){
 //						System.out.println("rt");
 
-						Core.x = Math.pow(Core.y, 1 / Double.parseDouble(label.getText()));
+						x = Math.pow(y, 1 / Double.parseDouble(label.getText()));
 
 						pullDown();
 						pushUp();
 
-						label.setText(Double.toString(Core.x));
+						label.setText(Double.toString(x));
 
 					}
 
@@ -607,12 +600,12 @@ public class KeyBoard{
 					public void mouseDown(MouseEvent e){
 //						System.out.println("pow");
 
-						Core.x = Math.pow(Core.y, Double.parseDouble(label.getText()));
+						x = Math.pow(y, Double.parseDouble(label.getText()));
 
 						pullDown();
 						pushUp();
 
-						label.setText(Double.toString(Core.x));
+						label.setText(Double.toString(x));
 
 					}
 
@@ -622,18 +615,24 @@ public class KeyBoard{
 		}
 	}
 
+	public static void clearStack(){
+
+		x = 0; y = 0; z = 0; t = 0;
+
+	}
+
 	private void pullDown(){
 
-		Core.y = Core.z;
-		Core.z = Core.t;
+		y = z;
+		z = t;
 
 	}
 
 	private void pushUp(){
 
-		Core.t = Core.z;
-		Core.z = Core.y;
-		Core.y = Core.x;
+		t = z;
+		z = y;
+		y = x;
 
 	}
 

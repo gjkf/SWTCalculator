@@ -27,23 +27,10 @@ public class Core{
 
 	public static boolean error = false;
 
-	public static double x = 0, y = 0, z = 0, t = 0;
-
-	/**
-	 * Clears the stack, used in the RPN
-	 *
-	 * @see com.gjkf.calc.gui.KeyBoard
-	 */
-
-	public static void clearStack(){
-
-		x = 0; y = 0; z = 0; t = 0;
-
-	}
-
 	/**
 	 * It uses the <code>JavaScript</code>'s engine to calculate the value of the formula
 	 *
+	 * @param canvas The canvas used get the bounds in which draw
 	 * @param formula The given formula to parse
 	 * @param multiplier The multiplier, used to zoom
 	 * @param cycle The current cycle, used to change the line colour

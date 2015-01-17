@@ -54,11 +54,8 @@ public class ColorPicker{
         shell.setText("Color Chooser");
         shell.setSize(500, 500);
 
-//        initColor(shell);
         initLabels();
         initButtons();
-
-//        loadColorArray();
 
         center();
         open();
@@ -151,7 +148,7 @@ public class ColorPicker{
     }
 
     /**
-     * Initialises the color setting its default
+     * Initialises the color setting its defaults
      *
      * @param shell The current shell
      */

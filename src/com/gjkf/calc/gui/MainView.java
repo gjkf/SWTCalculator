@@ -66,7 +66,6 @@ public class MainView{
 		initTextField();
 
 		drawAxis();
-//		initErrorLabel();
 
 		initTimer();
 
@@ -85,6 +84,7 @@ public class MainView{
 	 * @param cycle The current cycle we're in, used to change colour of the line we draw
 	 *
 	 * @see com.gjkf.calc.core.Core
+	 * @see com.gjkf.calc.gui.ColorPicker
 	 */
 
 	public static void draw(int x1, int y1, int x2, int y2, int cycle){
@@ -161,6 +161,10 @@ public class MainView{
 
 	}
 
+	/**
+	 * Inits all the text fields with their listeners
+	 */
+
 	private void initTextField(){
 
 		multLabel = new CLabel(shell, SWT.SHADOW_NONE);
@@ -183,7 +187,8 @@ public class MainView{
 		formulaField.addKeyListener(new KeyListener(){
 
 			@Override
-			public void keyReleased(KeyEvent e){}
+			public void keyReleased(KeyEvent e){
+			}
 
 			@Override
 			public void keyPressed(KeyEvent e){
@@ -192,7 +197,7 @@ public class MainView{
 
 //					System.out.println(formula);
 
-					if(!multiplierTextField.getText().equals("")){
+					if(! multiplierTextField.getText().equals("")){
 //						if(errorLabel != null && !errorLabel.isDisposed()){
 //							errorLabel.setText("");
 //							errorLabel.redraw();
@@ -209,6 +214,10 @@ public class MainView{
 		});
 
 	}
+
+	/**
+	 * Inits all the buttons with their listeners
+	 */
 
 	private void initButtons(){
 
@@ -292,10 +301,10 @@ public class MainView{
 				}
 
 				if(extended && xStackLabel != null && yStackLabel != null && zStackLabel != null && tStackLabel != null){
-					xStackLabel.setText("X: " + Core.x);
-					yStackLabel.setText("Y: " + Core.y);
-					zStackLabel.setText("Z: " + Core.z);
-					tStackLabel.setText("T: " + Core.t);
+					xStackLabel.setText("X: " + KeyBoard.x);
+					yStackLabel.setText("Y: " + KeyBoard.y);
+					zStackLabel.setText("Z: " + KeyBoard.z);
+					tStackLabel.setText("T: " + KeyBoard.t);
 				}
 
 				if(expressionLabel != null){
@@ -317,23 +326,40 @@ public class MainView{
 
 	}
 
+	/**
+	 * Draws the axis
+	 */
+
 	private void drawAxis(){
 
 		canvas = new Canvas(shell, SWT.NO_REDRAW_RESIZE);
 
-		canvas.setBounds(0, 40, shell.getBounds().width, shell.getBounds().height/2 + 150);
+		canvas.setBounds(0, 40, shell.getBounds().width, shell.getBounds().height / 2 + 150);
 		canvas.layout();
 
 		canvas.addPaintListener(new PaintListener(){
 			public void paintControl(PaintEvent e){
 
+				int size = 10;
+
+				// Axis
 				e.gc.drawLine(canvas.getBounds().width / 2, 0, canvas.getBounds().width / 2, canvas.getBounds().height);
 				e.gc.drawLine(0, canvas.getBounds().height / 2, canvas.getBounds().width, canvas.getBounds().height / 2);
+
+				// Arrows
+				e.gc.drawLine(canvas.getBounds().width / 2 - size, size, canvas.getBounds().width / 2, 0);
+				e.gc.drawLine(canvas.getBounds().width / 2, 0, canvas.getBounds().width / 2 + size, size);
+				e.gc.drawLine(canvas.getBounds().width - size, canvas.getBounds().height / 2 - size, canvas.getBounds().width, canvas.getBounds().height / 2);
+				e.gc.drawLine(canvas.getBounds().width, canvas.getBounds().height / 2, canvas.getBounds().width - size, canvas.getBounds().height / 2 + size);
 
 			}
 		});
 
 	}
+
+	/**
+	 * Init the label used when an error occurs
+	 */
 
 	public static void initErrorLabel(){
 			errorLabel = new CLabel(shell, SWT.SHADOW_NONE);
